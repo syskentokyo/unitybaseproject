@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c1c79ab8ad848828fa67f08a985009f, type: 3}
+  m_Name: Development1Config
+  m_EditorClassIdentifier: 
+  isClearBuildCache: 0
+  isDevelopmentBuild: 1
+  isConnectWithProfiler: 0
+  isDeepPriling: 0
+  isAllowDebugging: 0
+  saveDirectoryPreName: dev
+  saveAppName: dev
+  saveDirectoryType: 0
+  _appConfig: {fileID: 11400000, guid: f8e180998a7c942c5b2c08d5ccec525b, type: 2}
+  isActiveUserOriginalProcessPreBuild: 0
+  isActiveUserOriginalProcessAfterBuild: 0
+  userOriginalParamList: []
+  userOriginalConfig: {fileID: 0}
+  addDefineList: []
+  _targetSceneList:
+  - {fileID: 102900000, guid: bcb27f3354a8c4baaaa1e56aa966fceb, type: 3}
+  isAutoOpenDirectoryAfterBuild_ONWINDOWS: 1
+  isAutoRunAfterBuild_ONWINDOWS: 1
+  isAutoOpenDirectoryAfterBuild_ONOSX: 1
+  isAutoRunAfterBuild_ONOSX: 1
+  isAutoOpenDirectoryAfterBuild_ONANDROID: 1
+  isAutoRunAfterBuild_ONANDROID: 1
+  isOverwrittenBuildAppBundle_ONANDROID: 0
+  isOverwrittenAppID_ONANDROID: 0
+  overwrittenAppID_ONANDROID: 
+  isOverwrittenKeystoreConfig_ONANDROID: 0
+  overwrittenKeystoreName_ONANDROID: 
+  overwrittenKeystorePass_ONANDROID: 
+  overwrittenKeystoreKeyAliasName_ONANDROID: 
+  overwrittenKeystoreKeyAliasPass_ONANDROID: 
+  isAutoOpenDirectoryAfterBuild_ONIOS: 1
+  isAutoRunAfterBuild_ONIOS: 1
+  isOverwrittenAppIDAndTeamID_ONIOS: 0
+  overwrittenAppID_ONIOS: 
+  overwrittenTeamID_ONIOS: 
