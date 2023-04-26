@@ -1,3 +1,4 @@
+using SyskenTLib.BaseProject.Base.Editor;
 using SyskenTLib.FirstWindowsEditor.Window;
 using UnityEditor;
 using UnityEngine;
@@ -22,7 +23,12 @@ namespace SyskenTLib.FirstWindowsEditor
             
             //チェック呼び出し
             StartProjectCommonWindow();
-            StartPerUserWindow();
+            
+            
+            //
+            // MEMO ユーザごと呼び出し
+            //
+            // StartPerUserWindow();
         }
 
         private static void StartProjectCommonWindow()
@@ -31,8 +37,14 @@ namespace SyskenTLib.FirstWindowsEditor
 
             if (saveDataManager.IsExistProjectCommonConfig()==false)
             {
+                saveDataManager.SaveProjectCommonConfig();//設定を開いたことにする
+                
                 //まだ処理してない場合
-                PerUserWindow.ShowWindow();
+                // PerUserWindow.ShowWindow();
+                
+                SetupWindow.ShowSetUpWindow();
+                
+                
             }
             else
             {

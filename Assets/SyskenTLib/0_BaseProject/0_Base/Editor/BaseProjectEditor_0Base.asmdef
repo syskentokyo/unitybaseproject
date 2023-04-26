@@ -1,9 +1,7 @@
 {
-    "name": "FirstWindowEditor",
-    "rootNamespace": "SyskenTLib.FirstWindowsEditor",
-    "references": [
-        "GUID:1a00202792cd14e36a403d65bcf64f94"
-    ],
+    "name": "BaseProjectEditor_0Base",
+    "rootNamespace": "SyskenTLib.BaseProject.Base.Editor",
+    "references": [],
     "includePlatforms": [
         "Editor"
     ],

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8bf30a49414e749ace02b408520595, type: 3}
+  m_Name: SetupConfig
+  m_EditorClassIdentifier: 
+  _targetPackageIDList:
+  - com.unity.2d.sprite
+  - com.unity.mobile.android-logcat
+  _createDirectoryPathList:
+  - Assets/Client
+  - Assets/ForDebug
+  - Assets/Main
+  - Assets/TeamLib
+  - Assets/ThirdLib
+  - Assets/Main/Animations
+  - Assets/Main/Audio
+  - Assets/Main/Editor
+  - Assets/Main/Fonts
+  - Assets/Main/Material
+  - Assets/Main/Models
+  - Assets/Main/Plugins
+  - Assets/Main/Resources
+  - Assets/Main/Scenes
+  - Assets/Main/Scripts
+  - Assets/Main/Textures
+  - Assets/Main/Video
+  - Assets/Main/Textures/UI
+  - Assets/Main/Textures/DotUI
+  - Assets/Main/Audio/BGM
+  - Assets/Main/Audio/SE
+  _layerList: []
+  _gitignoreTxt: 
+  _baseGitLFS: 
+  _modelGitLFS: 
+  _imageGitLFS: 
+  _videoGitLFS: 
+  _audioGitLFS: 
