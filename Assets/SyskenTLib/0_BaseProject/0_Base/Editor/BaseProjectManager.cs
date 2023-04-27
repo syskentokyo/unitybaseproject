@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -26,7 +27,8 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
         public Action _completedSetUpAction;
 
-        private SetupConfig _currentConfig;
+        private BaseSetupConfig _currentBaseSetupConfig;
+        private GitSetupConfig _currentGitSetupConfig;
 
         private SetupStatus _currentSetupStatus = SetupStatus.Init;
 
@@ -37,7 +39,8 @@ namespace SyskenTLib.BaseProject.Base.Editor
         {
             EditorApplication.update += OnEditorUpdate;
 
-            _currentConfig = SearchSetUpConfig();
+            _currentBaseSetupConfig = SearchSetUpConfig();
+            _currentGitSetupConfig = SearchGitSetUpConfig();
             
             _currentSetupStatus = SetupStatus.Init;
             StartNextProcess();
@@ -68,6 +71,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
                 case SetupStatus.CreateDirectory:
                 {
                     _currentSetupStatus = SetupStatus.Git;
+                    StartGitSetting();
                     break;
                 }
                 case SetupStatus.Git:
@@ -129,18 +133,32 @@ namespace SyskenTLib.BaseProject.Base.Editor
         }
         
                 
-        private  SetupConfig SearchSetUpConfig()
+        private  BaseSetupConfig SearchSetUpConfig()
         {
-            SetupConfig setupConfig = null;
-            string[] guids = AssetDatabase.FindAssets("t:SetupConfig");
+            BaseSetupConfig baseSetupConfig = null;
+            string[] guids = AssetDatabase.FindAssets("t:BaseSetupConfig");
             guids.ToList().ForEach(nextGUID =>
             {
                 string filePath = AssetDatabase.GUIDToAssetPath(nextGUID);
-                setupConfig = AssetDatabase.LoadAssetAtPath<SetupConfig>(filePath);
+                baseSetupConfig = AssetDatabase.LoadAssetAtPath<BaseSetupConfig>(filePath);
 
             });
             
-            return setupConfig;
+            return baseSetupConfig;
+        }
+        
+        private  GitSetupConfig SearchGitSetUpConfig()
+        {
+            GitSetupConfig nextSetupConfig = null;
+            string[] guids = AssetDatabase.FindAssets("t:GitSetupConfig");
+            guids.ToList().ForEach(nextGUID =>
+            {
+                string filePath = AssetDatabase.GUIDToAssetPath(nextGUID);
+                nextSetupConfig = AssetDatabase.LoadAssetAtPath<GitSetupConfig>(filePath);
+
+            });
+            
+            return nextSetupConfig;
         }
         
         #endregion
@@ -157,7 +175,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
         private void StartImportDefaultPackage()
         {
-            string nextPackageID = _currentConfig.GetTargetPackageIDList[_currentPackageIndex];
+            string nextPackageID = _currentBaseSetupConfig.GetTargetPackageIDList[_currentPackageIndex];
             Debug.Log("次のパッケージ:"+nextPackageID);
             _currentAddRequest =  Client.Add(nextPackageID);
         }
@@ -172,7 +190,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
                 
                 _currentPackageIndex++;
                 
-                if (_currentPackageIndex < _currentConfig.GetTargetPackageIDList.Count)
+                if (_currentPackageIndex < _currentBaseSetupConfig.GetTargetPackageIDList.Count)
                 {
                     //次のインポート開始
                     StartImportDefaultPackage();
@@ -194,11 +212,13 @@ namespace SyskenTLib.BaseProject.Base.Editor
         private void StartCreateDirectory()
         {
             CreateAllDirectoryProcess();
+            
+            StartNextProcess();//次の処理
         }
 
         private void CreateAllDirectoryProcess()
         {
-            _currentConfig.GetCreateDirectoryPathList.ForEach(dirPath =>
+            _currentBaseSetupConfig.GetCreateDirectoryPathList.ForEach(dirPath =>
             {
                 if (dirPath != "")
                 {
@@ -228,8 +248,102 @@ namespace SyskenTLib.BaseProject.Base.Editor
         
 
         #endregion
+        
+        #region Git
+
+        private void StartGitSetting()
+        {
+            Debug.Log("Gitの設定開始");
+            StartGitSettingProcess();
+            StartNextProcess();//次の処理
+        }
+
+        private void StartGitSettingProcess()
+        {
+            CreateBaseGitConfig();
+            CreateBaseGitLFSConfig();
+            
+            //それぞれのGitLFS設定
+            Create3DModelGitLFSConfig();
+            CreateImageGitLFSConfig();
+            CreateVideoGitLFSConfig();
+            CreateAudioGitLFSConfig();
+        }
+
+        private void CreateBaseGitConfig()
+        {
+            
+            Debug.Log("GitのIgnore作成。 ");
+            string configText = _currentGitSetupConfig.GetGitIgnore;
+            string unityprojectDirPath = Path.GetDirectoryName(Application.dataPath);
+            string gitkeepPath = unityprojectDirPath + "/" + ".gitignore";
+            
+            //設定ファイル作成
+            File.WriteAllText(gitkeepPath,configText);
+            
+        }
+        
+        private void CreateBaseGitLFSConfig()
+        {
+            
+            Debug.Log("GitLFSの.gitattributes作成。 ");
+            string configText = _currentGitSetupConfig.GetBaseGitLFS;
+            string unityprojectDirPath = Path.GetDirectoryName(Application.dataPath);
+            string gitLFSPath = unityprojectDirPath + "/" + ".gitattributes";
+            
+            //設定ファイル作成
+            File.WriteAllText(gitLFSPath,configText);
+            
+        }
+        
+        private void Create3DModelGitLFSConfig()
+        {
+            CreateGitLFSConfig(_currentGitSetupConfig.GetModelGitLFS,
+                _currentGitSetupConfig.GetGitLFS3DModelDirPathList);
+        }
+        private void CreateImageGitLFSConfig()
+        {
+            CreateGitLFSConfig(_currentGitSetupConfig.GetImageGitLFS,
+                _currentGitSetupConfig.GetGitLFSImageDirPathList);
+        }
+        private void CreateVideoGitLFSConfig()
+        {
+            CreateGitLFSConfig(_currentGitSetupConfig.GetVideoGitLFS,
+                _currentGitSetupConfig.GetGitLFSVideoDirPathList);
+        }
+        private void CreateAudioGitLFSConfig()
+        {
+            CreateGitLFSConfig(_currentGitSetupConfig.GetAudioGitLFS,
+                _currentGitSetupConfig.GetGitLFSAudioDirPathList);
+        }
+        
+        private void CreateGitLFSConfig(string configText,List<string> saveDirPathList)
+        {
+            
+
+            string unityprojectDirPath = Path.GetDirectoryName(Application.dataPath);
+
+            
+            saveDirPathList.ForEach(saveDirPath =>
+            {
+                if (saveDirPath != "")
+                {
+                    string gitLFSPath = unityprojectDirPath + "/" +saveDirPath+ "/"+ ".gitattributes";
+
+                    Debug.Log("GitLFS:それぞれフォルダ用の設定ファイル作成 "+gitLFSPath);
+                    
+                    //設定ファイル作成
+                    File.WriteAllText(gitLFSPath, configText);
+                }
+            });
+
+            
+        }
+        
+        #endregion
 
 
+        #region 終了系
 
         private void CompleteSetup()
         {
@@ -237,5 +351,9 @@ namespace SyskenTLib.BaseProject.Base.Editor
             
             _completedSetUpAction?.Invoke();//終了の通知
         }
+        
+        
+
+        #endregion
     }
 }

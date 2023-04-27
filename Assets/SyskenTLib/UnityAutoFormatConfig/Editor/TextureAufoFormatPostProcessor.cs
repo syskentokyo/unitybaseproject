@@ -91,7 +91,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
                 case TextureUseKind.Custom1:
                 {
                     //
-                    // 
+                    // アプリアイコン
                     //
                     SetupCustom1(nextTextureImporter);
                 }
@@ -416,7 +416,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
             textureImporter.textureType = TextureImporterType.Default;
             textureImporter.filterMode = FilterMode.Bilinear;
             textureImporter.maxTextureSize = 1024;
-            textureImporter.mipmapEnabled = true; 
+            textureImporter.mipmapEnabled = false; 
             textureImporter.alphaIsTransparency = isAlpha;
 
             //Standalone(PC)

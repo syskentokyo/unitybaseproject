@@ -1,0 +1,26 @@
+# Base
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.dll filter=lfs diff=lfs merge=lfs -text
+
+# 3DModel
+
+*.fbx filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+*.vrm filter=lfs diff=lfs merge=lfs -text
+
+
+ # Image
+
+*.psd filter=lfs diff=lfs merge=lfs -text
+
+# Movie
+
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
+
+
+# Audio
+
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text

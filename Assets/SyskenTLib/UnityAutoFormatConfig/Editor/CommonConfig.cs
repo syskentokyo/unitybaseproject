@@ -9,19 +9,21 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
         //
         public static readonly List<string> textureNormalUIDirectoryPathList = new List<string>()
         {
-            "Assets/Sample/UI",
-            "Assets/Sample2/UI"
+            "Assets/Main/Textures/UI",
+            "Assets/Client/Textures/UI",
         };
 
         public  static readonly List<string> textureDotUIDirectoryPathList = new List<string>()
         {
-            "Assets/Sample/DotUI",
-            "Assets/Sample2/DotUI"
+            "Assets/Main/Textures/DotUI",
+             "Assets/Client/Textures/DotUI",
         };
         
+        //アプリアイコン
         public  static readonly List<string> textureCustom1DirectoryPathList = new List<string>()
         {
-            "Assets/Sample/Texture/Custom1"
+            "Assets/Main/Textures/AppIcon",
+            "Assets/Client/Textures/AppIcon",
         };
         public  static readonly List<string> textureCustom2DirectoryPathList = new List<string>()
         {
@@ -38,12 +40,14 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
         //
         public static readonly List<string> audioBGMDirectoryPathList = new List<string>()
         {
-            "Assets/Sample/Sound/BGM"
+            "Assets/Main/Audio/BGM",
+            "Assets/Client/Audio/BGM",
         };
 
         public  static readonly List<string> audioSEDirectoryPathList = new List<string>()
         {
-            "Assets/Sample/Sound/SE"
+            "Assets/Main/Audio/SE",
+            "Assets/Client/Audio/SE",
         };
         
         public  static readonly List<string> audioCustom1DirectoryPathList = new List<string>()
@@ -66,7 +70,8 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
         //
         public static readonly List<string> videoNormalDirectoryPathList = new List<string>()
         {
-            "Assets/Sample/Video/Normal"
+            "Assets/Main/Video",
+            "Assets/Client/Video",
         };
         
         public static readonly List<string> videoCustom1DirectoryPathList = new List<string>()
