@@ -155,12 +155,16 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.unitybaseproject
+    Android: tokyo.sysken.ios.dev.publicgithub.app20230428032035
+    Standalone: tokyo.sysken.ios.dev.publicgithub.app20230428032035
+    WebGL: tokyo.sysken.ios.dev.publicgithub.app20230428032035
+    iPhone: tokyo.sysken.ios.dev.publicgithub.app20230428032035
+    tvOS: tokyo.sysken.ios.dev.publicgithub.app20230428032035
   buildNumber:
     Standalone: 0
     iPhone: 0
     tvOS: 0
-  overrideDefaultApplicationIdentifier: 0
+  overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 22
   AndroidTargetSdkVersion: 0

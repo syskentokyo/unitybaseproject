@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SyskenTLib.BuildSceneUtilEditor;
 using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
@@ -29,6 +30,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
         private BaseSetupConfig _currentBaseSetupConfig;
         private GitSetupConfig _currentGitSetupConfig;
+        private UnityProjectSetupConfig _currentUnityProjectSetupConfig;
 
         private SetupStatus _currentSetupStatus = SetupStatus.Init;
 
@@ -41,6 +43,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
             _currentBaseSetupConfig = SearchSetUpConfig();
             _currentGitSetupConfig = SearchGitSetUpConfig();
+            _currentUnityProjectSetupConfig = SearchUnityProjectSetUpConfig();
             
             _currentSetupStatus = SetupStatus.Init;
             StartNextProcess();
@@ -77,6 +80,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
                 case SetupStatus.Git:
                 {
                     _currentSetupStatus = SetupStatus.UnityProjectSetting;
+                    StartUnityProjectSetting();
                     break;
                 }
                 case SetupStatus.UnityProjectSetting:
@@ -159,6 +163,39 @@ namespace SyskenTLib.BaseProject.Base.Editor
             });
             
             return nextSetupConfig;
+        }
+        
+        private  UnityProjectSetupConfig SearchUnityProjectSetUpConfig()
+        {
+            UnityProjectSetupConfig nextSetupConfig = null;
+            string[] guids = AssetDatabase.FindAssets("t:UnityProjectSetupConfig");
+            guids.ToList().ForEach(nextGUID =>
+            {
+                string filePath = AssetDatabase.GUIDToAssetPath(nextGUID);
+                nextSetupConfig = AssetDatabase.LoadAssetAtPath<UnityProjectSetupConfig>(filePath);
+
+            });
+            
+            return nextSetupConfig;
+        }
+        
+        private  List<CustomBuildConfig> SearchCustomBuildConfigConfig()
+        {
+            List<CustomBuildConfig> customBuildConfigList = new List<CustomBuildConfig>();
+            
+ 
+            string[] guids = AssetDatabase.FindAssets("t:CustomBuildConfig");
+            guids.ToList().ForEach(nextGUID =>
+            {
+                CustomBuildConfig nextConfig = null;
+                string filePath = AssetDatabase.GUIDToAssetPath(nextGUID);
+                nextConfig = AssetDatabase.LoadAssetAtPath<CustomBuildConfig>(filePath);
+                
+                customBuildConfigList.Add(nextConfig);
+
+            });
+            
+            return customBuildConfigList;
         }
         
         #endregion
@@ -340,6 +377,80 @@ namespace SyskenTLib.BaseProject.Base.Editor
             
         }
         
+        #endregion
+
+        #region UnityProjectSetting
+
+        private void StartUnityProjectSetting()
+        {
+            Debug.Log("UnityProjectSettingの設定開始");
+            
+            StartUnityProjectSettingProcess();
+            
+            StartNextProcess();//次の処理
+        }
+
+        private void StartUnityProjectSettingProcess()
+        {
+            StartOverwriteAppIDProcess();
+        }
+        
+        private void StartOverwriteAppIDProcess()
+        {
+            string overwriteAppID = "";
+            
+            switch (_currentUnityProjectSetupConfig.GetOverwriteAppIDType)
+            {
+                case UnityProjectAppIDType.None:
+                {
+                    return;
+                }
+                
+                case UnityProjectAppIDType.OverwriteBaseID:
+                {
+                    overwriteAppID = _currentUnityProjectSetupConfig.GetBaseAppID;
+                    break;
+                }
+                
+                case UnityProjectAppIDType.OverwriteAddRandomID:
+                {
+                    string dateTxt = DateTime.Now.ToString( "yyyyMMddHHmmss" );
+                    overwriteAppID = _currentUnityProjectSetupConfig.GetBaseAppID+".app"+dateTxt;
+                    break;
+                }
+            }
+
+            if (overwriteAppID == "")
+            {
+                return;
+            }
+            
+            Debug.Log("アプリIDを上書きします"+overwriteAppID);
+            
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.iOS, overwriteAppID);
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Android, overwriteAppID);
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.Standalone, overwriteAppID);
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.tvOS, overwriteAppID);
+            PlayerSettings.SetApplicationIdentifier(BuildTargetGroup.WebGL, overwriteAppID);
+            
+            
+            //自動ビルド設定に書き込む
+            Debug.Log("自動ビルド設定のアプリID、チームIDを上書きします"+overwriteAppID);
+            List<CustomBuildConfig> customBuildConfigList = SearchCustomBuildConfigConfig();
+            customBuildConfigList.ForEach(buildConfig =>
+            {
+                buildConfig.overwrittenAppID_ONIOS = overwriteAppID;
+                buildConfig.overwrittenTeamID_ONIOS = _currentUnityProjectSetupConfig.GetIOSTeamID;
+                buildConfig.overwrittenAppID_ONANDROID = overwriteAppID;
+                
+                EditorUtility.SetDirty(buildConfig);
+                
+            });
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
         #endregion
 
 
