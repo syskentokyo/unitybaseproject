@@ -170,11 +170,10 @@ namespace SyskenTLib.BuildSceneUtilEditor
         }
         
         [MenuItem("SyskenTLib/CustomBuild/AutoCreatePrivateConfig",priority = 210)]
-        private static void AutoCreatePrivateConfig()
+        public static void AutoCreatePrivateConfig()
         {
             RegistChangedPlatform();//プラットフォーム変更を検知開始
             InitPrivateConfig();
-
         }
 
         [MenuItem("SyskenTLib/CustomBuild/ReSelectBuildTargetDirectory", priority = 320)]

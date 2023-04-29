@@ -46,6 +46,14 @@ namespace SyskenTLib.BaseProject.Base.Editor
             _currentUnityProjectSetupConfig = SearchUnityProjectSetUpConfig();
             
             _currentSetupStatus = SetupStatus.Init;
+            
+            //
+            //事前準備
+            Debug.Log("ビルド設定のうち、プライベートのものを作成");
+            CustomBuild.AutoCreatePrivateConfig();
+            
+            
+            //
             StartNextProcess();
         }
 
@@ -393,6 +401,8 @@ namespace SyskenTLib.BaseProject.Base.Editor
         private void StartUnityProjectSettingProcess()
         {
             StartOverwriteAppIDProcess();
+            StartOverwriteAppName();
+            StartOverwriteCompanyName();
         }
         
         private void StartOverwriteAppIDProcess()
@@ -449,6 +459,26 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+        }
+
+        private void StartOverwriteAppName()
+        {
+            string appName = _currentUnityProjectSetupConfig.GetAppName;
+            if (appName != "")
+            {
+                Debug.Log("アプリ名を上書き:"+appName);
+                PlayerSettings.productName = appName;   
+            }
+  
+        }
+        private void StartOverwriteCompanyName()
+        {
+            string companyName = _currentUnityProjectSetupConfig.GetCompanyName;
+            if (companyName != "")
+            {
+                Debug.Log("会社名を上書き:"+companyName);
+                PlayerSettings.companyName = companyName;   
+            }
         }
 
         #endregion

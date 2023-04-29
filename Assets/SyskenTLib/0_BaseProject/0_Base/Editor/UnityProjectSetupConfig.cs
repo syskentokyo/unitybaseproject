@@ -27,5 +27,13 @@ namespace SyskenTLib.BaseProject.Base.Editor
         [SerializeField] private string _iOSteamID = "";
         public string GetIOSTeamID => _iOSteamID;
 
+        [Header("アプリ名")]
+        [SerializeField] private string _appName = "";
+        public string GetAppName => _appName;
+        
+        [Header("会社名")]
+        [SerializeField] private string _companyName = "";
+        public string GetCompanyName => _companyName;
+
     }
 }
