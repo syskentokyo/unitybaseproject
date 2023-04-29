@@ -401,8 +401,13 @@ namespace SyskenTLib.BaseProject.Base.Editor
         private void StartUnityProjectSettingProcess()
         {
             StartOverwriteAppIDProcess();
+
             StartOverwriteAppName();
             StartOverwriteCompanyName();
+
+            
+            StartOverwriteIOSSetting();
+            StartOverwriteAndroidSetting();
         }
         
         private void StartOverwriteAppIDProcess()
@@ -461,6 +466,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
             AssetDatabase.Refresh();
         }
 
+
         private void StartOverwriteAppName()
         {
             string appName = _currentUnityProjectSetupConfig.GetAppName;
@@ -479,6 +485,68 @@ namespace SyskenTLib.BaseProject.Base.Editor
                 Debug.Log("会社名を上書き:"+companyName);
                 PlayerSettings.companyName = companyName;   
             }
+        }
+        
+        
+        private void StartOverwriteIOSSetting()
+        {
+            Debug.Log("iOS:AutomaticSign上書き "+ _currentUnityProjectSetupConfig.GetIOSTurnONAutomaticSign);
+            PlayerSettings.iOS.appleEnableAutomaticSigning = _currentUnityProjectSetupConfig.GetIOSTurnONAutomaticSign;
+
+            string teamID = _currentUnityProjectSetupConfig.GetIOSTeamID;
+            if (teamID != "")
+            {
+                Debug.Log("iOS:TeamID上書き "+ teamID);
+                PlayerSettings.iOS.appleDeveloperTeamID = teamID;
+            }
+            
+            Debug.Log("iOS:サポートOSバージョン上書き "+ _currentUnityProjectSetupConfig.GetIOSSupportMinOSVersion);
+            PlayerSettings.iOS.targetOSVersionString = _currentUnityProjectSetupConfig.GetIOSSupportMinOSVersion;
+            
+            
+            string cameraUsage = _currentUnityProjectSetupConfig.GetIOSCamraUsage;
+            if (cameraUsage != "")
+            {
+                Debug.Log("iOS:カメラ利用理由上書き "+ cameraUsage);
+                PlayerSettings.iOS.cameraUsageDescription = cameraUsage;
+            }
+            
+            string microphoneUsage = _currentUnityProjectSetupConfig.GetIOSMicrophoneUsage;
+            if (microphoneUsage != "")
+            {
+                Debug.Log("iOS:マイク利用理由上書き "+ microphoneUsage);
+                PlayerSettings.iOS.microphoneUsageDescription = microphoneUsage;
+            }
+            
+            string locationUsage= _currentUnityProjectSetupConfig.GetIOSLocationUsage;
+            if (locationUsage != "")
+            {
+                Debug.Log("iOS:現在地利用理由上書き "+ locationUsage);
+                PlayerSettings.iOS.locationUsageDescription = teamID;
+            }
+            
+            
+
+        }
+        
+        
+        private void StartOverwriteAndroidSetting()
+        {
+
+            
+            Debug.Log("Android:サポートOSバージョン上書き "+ _currentUnityProjectSetupConfig.GetAndroidSupportMinOSVersion);
+            PlayerSettings.Android.minSdkVersion = _currentUnityProjectSetupConfig.GetAndroidSupportMinOSVersion;
+
+            ScriptingImplementation targetScriptingImplementation = ScriptingImplementation.IL2CPP;
+            Debug.Log("Android:ScriptBackend  "+ targetScriptingImplementation);
+            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android,targetScriptingImplementation);
+            
+
+            AndroidArchitecture targetArchitecture = AndroidArchitecture.ARM64;
+            Debug.Log("Android:アーキテクチャ  "+ targetArchitecture);
+            PlayerSettings.Android.targetArchitectures =targetArchitecture;
+
+
         }
 
         #endregion

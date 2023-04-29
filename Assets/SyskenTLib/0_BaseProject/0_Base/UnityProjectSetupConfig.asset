@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _overwriteAppIDType: 2
   _baseAppID: tokyo.sysken.ios.dev.publicgithub
+  _appName: demoapp
+  _companyName: ppengotsu
   _iOSteamID: 3WZMYL5AE6
+  _iOSTurnONAutomaticSign: 1

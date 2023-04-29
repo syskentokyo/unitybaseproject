@@ -28,9 +28,7 @@ MonoBehaviour:
   addDefineList:
   - AAAAAA
   - BBBBB
-  _targetSceneList:
-  - {fileID: 102900000, guid: 8b28be2128b634e379e500b30970a48f, type: 3}
-  - {fileID: 102900000, guid: bcb27f3354a8c4baaaa1e56aa966fceb, type: 3}
+  _targetSceneList: []
   isAutoOpenDirectoryAfterBuild_ONWINDOWS: 1
   isAutoRunAfterBuild_ONWINDOWS: 0
   isAutoOpenDirectoryAfterBuild_ONOSX: 1
@@ -39,7 +37,7 @@ MonoBehaviour:
   isAutoRunAfterBuild_ONANDROID: 0
   isOverwrittenBuildAppBundle_ONANDROID: 0
   isOverwrittenAppID_ONANDROID: 0
-  overwrittenAppID_ONANDROID: tokyo.sysken.ios.dev.publicgithub.app20230428032035
+  overwrittenAppID_ONANDROID: tokyo.sysken.ios.dev.publicgithub.app20230430021608
   isOverwrittenKeystoreConfig_ONANDROID: 0
   overwrittenKeystoreName_ONANDROID: 
   overwrittenKeystorePass_ONANDROID: 
@@ -48,5 +46,5 @@ MonoBehaviour:
   isAutoOpenDirectoryAfterBuild_ONIOS: 0
   isAutoRunAfterBuild_ONIOS: 0
   isOverwrittenAppIDAndTeamID_ONIOS: 0
-  overwrittenAppID_ONIOS: tokyo.sysken.ios.dev.publicgithub.app20230428032035
-  overwrittenTeamID_ONIOS: 
+  overwrittenAppID_ONIOS: tokyo.sysken.ios.dev.publicgithub.app20230430021608
+  overwrittenTeamID_ONIOS: 3WZMYL5AE6
