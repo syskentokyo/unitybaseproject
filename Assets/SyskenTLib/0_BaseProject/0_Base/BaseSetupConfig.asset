@@ -46,4 +46,9 @@ MonoBehaviour:
   - Assets/Client/Textures/AppIcon
   - Assets/Client/Video
   - Assets/Client/Models
-  _layerList: []
+  _defaultLayerSetting: "  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n 
+    - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n 
+    - \n  - \n  - \n  - \n"
+  _layerList:
+  - AAAA
+  - BBB

@@ -38,7 +38,7 @@ MonoBehaviour:
   isAutoRunAfterBuild_ONANDROID: 1
   isOverwrittenBuildAppBundle_ONANDROID: 0
   isOverwrittenAppID_ONANDROID: 0
-  overwrittenAppID_ONANDROID: tokyo.sysken.ios.dev.publicgithub.app20230430021608
+  overwrittenAppID_ONANDROID: tokyo.sysken.ios.dev.publicgithub.app20230510021940
   isOverwrittenKeystoreConfig_ONANDROID: 0
   overwrittenKeystoreName_ONANDROID: 
   overwrittenKeystorePass_ONANDROID: 
@@ -47,5 +47,5 @@ MonoBehaviour:
   isAutoOpenDirectoryAfterBuild_ONIOS: 1
   isAutoRunAfterBuild_ONIOS: 1
   isOverwrittenAppIDAndTeamID_ONIOS: 0
-  overwrittenAppID_ONIOS: tokyo.sysken.ios.dev.publicgithub.app20230430021608
+  overwrittenAppID_ONIOS: tokyo.sysken.ios.dev.publicgithub.app20230510021940
   overwrittenTeamID_ONIOS: 3WZMYL5AE6
