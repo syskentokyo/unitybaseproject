@@ -620,13 +620,22 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
             for (int i = 0; i < lineTotalNum; i++)
             {
-                if (i >= addLayerList.Count)
+                int ignoreFirstCount = 2;
+                if (i < ignoreFirstCount)
+                {
+                    //さきの２つは、Unity側定義であるため、スキップ
+                    rawText += "  - " + "\n";
+                    continue;;
+                }
+                
+                int targetIndex = i - ignoreFirstCount;
+                if (targetIndex >= addLayerList.Count)
                 {
                     rawText += "  - " + "\n";
                 }
                 else
                 {
-                    rawText += "  - " +addLayerList[i]+ "\n";
+                    rawText += "  - " +addLayerList[targetIndex]+ "\n";
                 }
             }
 

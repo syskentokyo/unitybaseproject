@@ -50,5 +50,29 @@ MonoBehaviour:
     - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n 
     - \n  - \n  - \n  - \n"
   _layerList:
-  - AAAA
-  - BBB
+  - 
+  - 
+  - Player
+  - PlayerItem
+  - 
+  - 
+  - 
+  - Enemy
+  - EnemyItem
+  - 
+  - 
+  - 
+  - 
+  - 
+  - FreeItem
+  - BoundArea
+  - 
+  - 
+  - 
+  - ResultRender
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 

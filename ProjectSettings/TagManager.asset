@@ -15,24 +15,24 @@ TagManager:
   - 
   - 
   - 
+  - Player
+  - PlayerItem
+  - 
+  - 
+  - 
+  - Enemy
+  - EnemyItem
   - 
   - 
   - 
   - 
   - 
+  - FreeItem
+  - BoundArea
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - ResultRender
   - 
   - 
   - 
