@@ -18,9 +18,5 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
         [Header("レイヤー")] [TextArea(minLines:10,maxLines:100)] [SerializeField] private string _defaultLayerSetting = "";
         public string GetDefaultLayerSetting => _defaultLayerSetting;
-        [SerializeField] private List<string> _layerList = new List<string>();
-        public List<string> GetLayerList => _layerList;
-        
-  
     }
 }

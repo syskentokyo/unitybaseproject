@@ -2,7 +2,8 @@
     "name": "BaseProjectEditor_0Base",
     "rootNamespace": "SyskenTLib.BaseProject.Base.Editor",
     "references": [
-        "GUID:98cf06d0d5ded44e598393fce29b914e"
+        "GUID:98cf06d0d5ded44e598393fce29b914e",
+        "GUID:637f940bd70764ce88374c546223190d"
     ],
     "includePlatforms": [
         "Editor"

@@ -11,32 +11,33 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - None6
+  - None7
+  - None8
+  - None9
   - Player
   - PlayerItem
-  - 
-  - 
-  - 
+  - None12
+  - None13
+  - None14
   - Enemy
   - EnemyItem
-  - 
-  - 
-  - 
-  - 
-  - 
+  - None17
+  - None18
+  - None19
+  - None20
+  - None21
   - FreeItem
   - BoundArea
-  - 
-  - 
-  - 
+  - None24
+  - None25
+  - None26
   - ResultRender
-  - 
-  - 
-  - 
-  - 
+  - None28
+  - None29
+  - None30
+  - None31
+
   m_SortingLayers:
   - name: Default
     uniqueID: 0

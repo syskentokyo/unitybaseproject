@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Common;
 using SyskenTLib.BuildSceneUtilEditor;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -616,28 +617,40 @@ namespace SyskenTLib.BaseProject.Base.Editor
         private string CreateAddLayerSettingText(int lineTotalNum)
         {
             string rawText = "";
-            List<string> addLayerList = _currentBaseSetupConfig.GetLayerList;
-
-            for (int i = 0; i < lineTotalNum; i++)
-            {
-                int ignoreFirstCount = 2;
-                if (i < ignoreFirstCount)
-                {
-                    //さきの２つは、Unity側定義であるため、スキップ
-                    rawText += "  - " + "\n";
-                    continue;;
-                }
-                
-                int targetIndex = i - ignoreFirstCount;
-                if (targetIndex >= addLayerList.Count)
-                {
-                    rawText += "  - " + "\n";
-                }
-                else
-                {
-                    rawText += "  - " +addLayerList[targetIndex]+ "\n";
-                }
-            }
+            
+            rawText += "  - " +"Default"+ "\n";
+            rawText += "  - " +"TransparentFX"+ "\n";
+            rawText += "  - " +"Ignore Raycast"+ "\n";
+            rawText += "  - " +""+ "\n";
+            rawText += "  - " +"Water"+ "\n";
+            rawText += "  - " +"UI"+ "\n";
+            rawText += "  - " + CommonLayer.Layer.None6.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None7.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None8.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None9.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.Player.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.PlayerItem.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None12.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None13.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None14.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.Enemy.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.EnemyItem.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None17.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None18.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None19.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None20.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None21.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.FreeItem.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.BoundArea.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None24.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None25.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None26.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.ResultRender.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None28.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None29.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None30.ToString() + "\n";
+            rawText += "  - " + CommonLayer.Layer.None31.ToString() + "\n";
+            
 
             return rawText;
         }
