@@ -43,8 +43,17 @@ namespace SyskenTLib.BaseProject.Base.Editor
             {
                 _baseProjectManager.StartSetup();
             }
-            
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.Space(30);
+            EditorGUILayout.BeginVertical("Box");
+
             EditorGUILayout.Space(10);
+            EditorGUILayout.LabelField("個別メニュー");
+            if (GUILayout.Button("Re Add Unity Layer"))
+            {
+                _baseProjectManager.InitReadConfig();
+                _baseProjectManager.StartAddLayer();
+            }
 
             EditorGUILayout.Space(10);
             EditorGUILayout.EndVertical();

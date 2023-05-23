@@ -39,13 +39,19 @@ namespace SyskenTLib.BaseProject.Base.Editor
         private int _currentPackageIndex = 0;
         private AddRequest _currentAddRequest = null;
 
+
+        public void InitReadConfig()
+        {
+            _currentBaseSetupConfig = SearchSetUpConfig();
+            _currentGitSetupConfig = SearchGitSetUpConfig();
+            _currentUnityProjectSetupConfig = SearchUnityProjectSetUpConfig();
+        }
+
         public void StartSetup()
         {
             EditorApplication.update += OnEditorUpdate;
 
-            _currentBaseSetupConfig = SearchSetUpConfig();
-            _currentGitSetupConfig = SearchGitSetUpConfig();
-            _currentUnityProjectSetupConfig = SearchUnityProjectSetUpConfig();
+            InitReadConfig();
 
             _currentSetupStatus = SetupStatus.Init;
 
@@ -590,6 +596,12 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
         #region UnityLayerSetting
 
+        public void StartAddLayer()
+        {
+            StartAddLayerProcess();
+        }
+        
+        
         private void StartAddLayerSetting()
         {
             Debug.Log("UnityのLayerの設定開始");
