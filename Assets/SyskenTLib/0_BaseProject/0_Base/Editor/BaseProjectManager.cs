@@ -284,6 +284,13 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
         #region ディレクトリ作成
 
+        public void CreateAllDirectory()
+        {
+
+            CreateAllDirectoryProcess();
+
+        }
+        
         private void StartCreateDirectory()
         {
             CreateAllDirectoryProcess();
@@ -326,6 +333,12 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
         #region Git
 
+         public void StartGitConfig()
+        {
+            StartGitSettingProcess();
+        }
+        
+        
         private void StartGitSetting()
         {
             Debug.Log("Gitの設定開始");
@@ -421,6 +434,12 @@ namespace SyskenTLib.BaseProject.Base.Editor
         #endregion
 
         #region UnityProjectSetting
+
+        public void StartUnityProjectConfig()
+        {
+            StartUnityProjectSettingProcess();
+        }
+
 
         private void StartUnityProjectSetting()
         {

@@ -49,6 +49,26 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
             EditorGUILayout.Space(10);
             EditorGUILayout.LabelField("個別メニュー");
+            if (GUILayout.Button("Create Directory"))
+            {
+                _baseProjectManager.InitReadConfig();
+                _baseProjectManager.CreateAllDirectory();
+            }
+            EditorGUILayout.Space(10);
+            if (GUILayout.Button("Setting Git"))
+            {
+                _baseProjectManager.InitReadConfig();
+                _baseProjectManager.StartGitConfig();
+            }
+            EditorGUILayout.Space(10);
+            
+            if (GUILayout.Button("Setting Unity Project"))
+            {
+                _baseProjectManager.InitReadConfig();
+                _baseProjectManager.StartUnityProjectConfig();
+            }
+            EditorGUILayout.Space(10);
+            
             if (GUILayout.Button("Re Add Unity Layer"))
             {
                 _baseProjectManager.InitReadConfig();
