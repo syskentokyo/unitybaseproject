@@ -624,7 +624,10 @@ namespace SyskenTLib.BaseProject.Base.Editor
             Debug.Log("GameObject複製時の名前変更："+EditorSettings.gameObjectNamingScheme +"  桁："+EditorSettings.gameObjectNamingDigits);
 
 
+            Debug.Log("インポート時の設定");
+            EditorSettings.refreshImportMode = AssetDatabase.RefreshImportMode.OutOfProcessPerQueue;
             EditorUserSettings.desiredImportWorkerCount = 4;
+            AssetDatabase.SaveAssets();
             // EditorUserSettings.
         }
         
