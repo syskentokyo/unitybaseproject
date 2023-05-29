@@ -9,6 +9,7 @@ using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace SyskenTLib.BaseProject.Base.Editor
 {
@@ -621,7 +622,10 @@ namespace SyskenTLib.BaseProject.Base.Editor
             AndroidArchitecture targetArchitecture = AndroidArchitecture.ARM64;
             Debug.Log("Android:アーキテクチャ  " + targetArchitecture);
             PlayerSettings.Android.targetArchitectures = targetArchitecture;
-
+            
+            PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android,false);
+            PlayerSettings.SetGraphicsAPIs(BuildTarget.Android,new GraphicsDeviceType[]{GraphicsDeviceType.OpenGLES3});
+            Debug.Log("Android: グラフィック  " + PlayerSettings.GetGraphicsAPIs(BuildTarget.Android)[0]);
 
         }
 
