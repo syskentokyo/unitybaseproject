@@ -462,6 +462,8 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
             StartOverwriteIOSSetting();
             StartOverwriteAndroidSetting();
+
+            StartEditorOnProjectSetting();
         }
 
         private void StartOverwriteAppIDProcess()
@@ -610,6 +612,22 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
 
         }
+
+        private void StartEditorOnProjectSetting()
+        {
+
+            //
+            // オブジェクト複製時の名前法則
+            //
+            EditorSettings.gameObjectNamingScheme = EditorSettings.NamingScheme.Underscore;
+            EditorSettings.gameObjectNamingDigits = 2;
+            Debug.Log("GameObject複製時の名前変更："+EditorSettings.gameObjectNamingScheme +"  桁："+EditorSettings.gameObjectNamingDigits);
+
+
+            EditorUserSettings.desiredImportWorkerCount = 4;
+            // EditorUserSettings.
+        }
+        
 
         #endregion
 

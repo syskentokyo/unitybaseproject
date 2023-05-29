@@ -77,6 +77,17 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
             EditorGUILayout.Space(10);
             EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.Space(30);
+            EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.Space(10);
+            EditorGUILayout.LabelField("自動で設定できない項目");
+            EditorGUILayout.Space(5);
+            EditorGUILayout.LabelField("推奨設定");
+            EditorGUILayout.LabelField("手動で変更することをおすすめします");
+            EditorGUILayout.LabelField("1.Edit -> Project Settings のEditorのParallel Importをオン");
+            EditorGUILayout.Space(10);
+            EditorGUILayout.EndVertical();
         }
 
         private void OnCompleteSetUp()
