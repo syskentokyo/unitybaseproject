@@ -57,6 +57,8 @@ namespace SyskenTLib.BaseProject.Base.Editor
         [SerializeField] private AndroidSdkVersions _androidSupportMinOSVersion = AndroidSdkVersions.AndroidApiLevel30;
         public AndroidSdkVersions GetAndroidSupportMinOSVersion => _androidSupportMinOSVersion;
         
+
+        
         
     }
 }
