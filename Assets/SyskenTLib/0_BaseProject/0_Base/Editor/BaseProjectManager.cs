@@ -460,7 +460,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
 
             StartPlatformCommonGeneral();
 
-
+            StartOverwriteWindowsSetting();
             StartOverwriteIOSSetting();
             StartOverwriteAndroidSetting();
 
@@ -550,6 +550,17 @@ namespace SyskenTLib.BaseProject.Base.Editor
             string appversion = "1.0.0";
             Debug.Log("アプリバージョン  " + appversion);
             PlayerSettings.bundleVersion = appversion;
+        }
+
+        private void StartOverwriteWindowsSetting()
+        {
+            PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.StandaloneWindows64,false);
+            PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64,new GraphicsDeviceType[]{GraphicsDeviceType.Direct3D12});
+            Debug.Log("Windows: グラフィック  " + PlayerSettings.GetGraphicsAPIs(BuildTarget.StandaloneWindows64)[0]);
+
+
+            PlayerSettings.useHDRDisplay = true;
+            Debug.Log("Windows: ディスプレイHDR対応：  " + PlayerSettings.useHDRDisplay );
         }
 
 
