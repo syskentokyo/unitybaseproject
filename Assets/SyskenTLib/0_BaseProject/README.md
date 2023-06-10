@@ -7,7 +7,7 @@
 
 # 使い方
 
-https://github.com/syskentokyo/unitybaseproject/wiki/HowTo
+https://github.com/syskentokyo/unitybaseproject/wiki/About
 
 # 含まれている便利なライブラリ
 
