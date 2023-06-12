@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b76f0aa177eb41caa56a14d710e0d751, type: 3}
-  m_Name: licenseconfig20230423171536
+  m_Name: licenseconfig20230613021737
   m_EditorClassIdentifier: 
-  _libraryName: FirstWindow
+  _libraryName: UnityBaseProject
   _memo1: 
   _libversion: 1.0.0
-  _webURL1: 
+  _webURL1: https://github.com/syskentokyo/unitybaseproject
   _webURL2: 
-  _createdTimeText: 2023/04/23_17:15:36
+  _createdTimeText: 2023/06/13_02:17:37
   _licenseType: 10
   _isMustShowLicense: 1
-  showLicenseOrder: 500
+  showLicenseOrder: 210
   _customText1: 
   _customText2: 
   _licenseShowText: 'MIT License
