@@ -46,7 +46,9 @@ MonoBehaviour:
   - Assets/Client/Textures/AppIcon
   - Assets/Client/Video
   - Assets/Client/Models
+  - Assets/Main/Prefabs
   - Assets/Common
+  - Assets/Client/Prefabs
   _defaultLayerSetting: "  - Default\n  - TransparentFX\n  - Ignore Raycast\n  -
     \n  - Water\n  - UI\n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n 
     - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n  - \n 

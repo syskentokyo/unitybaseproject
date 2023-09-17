@@ -18,3 +18,10 @@ MonoBehaviour:
   _companyName: ppengotsu
   _iOSteamID: 3WZMYL5AE6
   _iOSTurnONAutomaticSign: 1
+  _iOSSupportMinOSVersion: 16.0
+  _iOSCameraUsage: 
+  _iOSMicrophoneUsage: 
+  _iOSLocationUsage: 
+  _androidSupportMinOSVersion: 30
+  _androidTargetOSVersion: 30
+  _androidTargetOSVersionAddNum: 3

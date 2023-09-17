@@ -606,30 +606,44 @@ namespace SyskenTLib.BaseProject.Base.Editor
         {
 
 
+            //
+            //
+            //
             Debug.Log("Android:サポートOSバージョン上書き " + _currentUnityProjectSetupConfig.GetAndroidSupportMinOSVersion);
             PlayerSettings.Android.minSdkVersion = _currentUnityProjectSetupConfig.GetAndroidSupportMinOSVersion;
 
 
-            AndroidSdkVersions _androidSupportTargetOSVersion = AndroidSdkVersions.AndroidApiLevelAuto;
-            #if UNITY_2021
-            _androidSupportTargetOSVersion = (AndroidSdkVersions)33;
-            #elif UNITY_2022
-            _androidSupportTargetOSVersion = (AndroidSdkVersions)33;
-            #elif UNITY_2023
-            _androidSupportTargetOSVersion = (AndroidSdkVersions)34;
-            #endif
-            Debug.Log("Android:ターゲットOSバージョン上書き " + _androidSupportTargetOSVersion);
-            PlayerSettings.Android.targetSdkVersion = _androidSupportTargetOSVersion;
+            //
+            //
+            //
+            AndroidSdkVersions _androidTargetOSVersion = _currentUnityProjectSetupConfig.GetAndroidTargetOSVersion;
+            int targetOSVersionNum = (int)_androidTargetOSVersion;
+            _androidTargetOSVersion = (AndroidSdkVersions)(targetOSVersionNum +
+                                                           _currentUnityProjectSetupConfig
+                                                               .GetAndroidTargetOSVersionAddNum);
+            
+            Debug.Log("Android:ターゲットOSバージョン上書き " + _androidTargetOSVersion);
+            PlayerSettings.Android.targetSdkVersion = _androidTargetOSVersion;
 
+            
+            //
+            //
+            //
             ScriptingImplementation targetScriptingImplementation = ScriptingImplementation.IL2CPP;
             Debug.Log("Android:ScriptBackend  " + targetScriptingImplementation);
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, targetScriptingImplementation);
 
+            //
+            //
+            //
 
             AndroidArchitecture targetArchitecture = AndroidArchitecture.ARM64;
             Debug.Log("Android:アーキテクチャ  " + targetArchitecture);
             PlayerSettings.Android.targetArchitectures = targetArchitecture;
             
+            //
+            //
+            //
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android,false);
             PlayerSettings.SetGraphicsAPIs(BuildTarget.Android,new GraphicsDeviceType[]{GraphicsDeviceType.OpenGLES3});
             Debug.Log("Android: グラフィック  " + PlayerSettings.GetGraphicsAPIs(BuildTarget.Android)[0]);

@@ -57,6 +57,13 @@ namespace SyskenTLib.BaseProject.Base.Editor
         [SerializeField] private AndroidSdkVersions _androidSupportMinOSVersion = AndroidSdkVersions.AndroidApiLevel30;
         public AndroidSdkVersions GetAndroidSupportMinOSVersion => _androidSupportMinOSVersion;
         
+        
+        [SerializeField] private AndroidSdkVersions _androidTargetOSVersion = AndroidSdkVersions.AndroidApiLevel30;
+        public AndroidSdkVersions GetAndroidTargetOSVersion => _androidTargetOSVersion;
+
+        [Header("AndroidのターゲットOSバージョンに加算するバージョン数")]
+        [SerializeField] private int _androidTargetOSVersionAddNum = 3;
+        public int GetAndroidTargetOSVersionAddNum => _androidTargetOSVersionAddNum;
 
         
         
