@@ -9,21 +9,36 @@ namespace SyskenTLib.LicenseMaster
         Apache=11,
         BSD3Clause=12,
         
+        //UnityAssetStore系
         UnityAssetStoreSingleEntity=20,
         UnityAssetStoreMultiEntity=21,
         UnityAssetStoreSeat=22,
         UnityAssetStoreOld20200203=23,
         
+        //クリエイティブ・コモンズ
         CC0=300,
         
+        //フォント系
+        SILOpenFontLicenseVersion1_1=400,
+        
+        //Mozilla系
         MozillaPublic=700,
         
+        //GPL系
         GPL = 800,
         LGPL=801,
         AGPL=802,
 
         Other= 999,
         
+    }
+
+    public enum ChargeType
+    {
+        Unknown,
+        Free,
+        Paid_OneTimePurchase,
+        Paid_Subscritption,
     }
     
     
@@ -78,7 +93,12 @@ namespace SyskenTLib.LicenseMaster
             [Space(10)]
         [Header("ライセンス")]
         [SerializeField] private LicenseType _licenseType = LicenseType.Other;
-            public LicenseType GetLicenseType=> _licenseType; 
+        public LicenseType GetLicenseType=> _licenseType;
+            
+        [SerializeField] private ChargeType _chargeType = ChargeType.Unknown;
+        public ChargeType GetChargeType=> _chargeType;
+
+        
             
             
         [Header("ライセンス表記が必要か？")] [SerializeField] private bool _isMustShowLicense = false;

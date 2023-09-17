@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using SyskenTLib.LicenseMaster;
+using Unity.Plastic.Antlr3.Runtime.Misc;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,17 +14,9 @@ namespace SyskenTLib.LicenseMasterEditor
         
         private OutputTemplate SearchOutputTemplate()
         {
-            string[] guids = AssetDatabase.FindAssets("t:OutputTemplate");
-            OutputTemplate outputTemplate = null; 
-            
-            guids.ToList().ForEach(nextGUID =>
-            {
-                string filePath = AssetDatabase.GUIDToAssetPath(nextGUID);
-                outputTemplate= AssetDatabase.LoadAssetAtPath<OutputTemplate> (filePath);
-                
-            });
-            
-            return outputTemplate;
+            OutputTemplateFileManager fileTemplateManager = new OutputTemplateFileManager();
+
+            return fileTemplateManager.SearchOutputTemplate();
         }
 
         public string GenerateHTML(List<LicenseConfig> configList)
@@ -92,13 +86,13 @@ namespace SyskenTLib.LicenseMasterEditor
         }
         
      
-        public string GenerateMARKDOWNForUseGit(List<LicenseConfig> configList)
+        public string GenerateMARKDOWNDetailListForUseGit(List<LicenseConfig> configList)
         {
             OutputTemplate outputTemplate = SearchOutputTemplate();
             string resultText = "";
 
             //タイトルとスペシャルサンクス
-            resultText += "このUnityプロジェクトが利用しているライブラリ一覧です。"+"\n";
+            resultText += "このUnityプロジェクトが利用しているライブラリ一覧(詳細)です。"+"\n";
             resultText += "\n\n更新日時："+DateTime.Now.ToString("yyyy/MM/dd_HH:mm:ss") +"\n";
             
 
@@ -110,11 +104,12 @@ namespace SyskenTLib.LicenseMasterEditor
                 //ライブラリ名
                 resultText += "\n"+outputTemplate._markdownLibTitleText.Replace(outputTemplate._replaceTargetTextDefine,config.GetLibrayName);
 
-                resultText += "\n" + "* メモ１：" + "\n";
+                resultText += "\n" + "### メモ１：" + "\n";
                 resultText += "\n```\n" + "" + config.GetMemo1+"\n```\n\n\n";
                 
                 resultText += "\n* " + "追加日：" + config.GetCreatedTimeText;
                 resultText += "\n* " + "ライセンス：" + config.GetLicenseType;
+                resultText += "\n* " + "料金タイプ：" + config.GetChargeType;
                 resultText += "\n* " + "ライセンス表記が必要？：" + config.GetIsMustShowLicense;
                 resultText += "\n\n\n* " + "バージョン：" + config.GetLibVersion;
                 resultText += "\n\n\n* " + "WebURL1：" + config.GetWebURL1;
@@ -123,10 +118,14 @@ namespace SyskenTLib.LicenseMasterEditor
                 resultText += "\n* " + "カスタム2：" + config.GetCustomText2;
 
                 //ライセンス表示内容
-                resultText += "\n\n"+outputTemplate._markdownLibContentText.Replace(outputTemplate._replaceTargetTextDefine,config.GetLicenseShowText);
+                resultText += "\n\n### ライセンス表記内容：\n\n"+outputTemplate._markdownLibContentText.Replace(outputTemplate._replaceTargetTextDefine,config.GetLicenseShowText);
 
 
-                resultText += "\n\n";
+                resultText += "\n\n"
+                              +"---------------------------------------\n"
+                              +"---------------------------------------\n"
+                              +"---------------------------------------\n";
+                
             });
             
             //境界
@@ -139,6 +138,42 @@ namespace SyskenTLib.LicenseMasterEditor
             return resultText;
         }
         
+        
+        public string GenerateMARKDOWNSimpleListForUseGit(List<LicenseConfig> configList)
+        {
+            OutputTemplate outputTemplate = SearchOutputTemplate();
+            string resultText = "";
+
+            //タイトルとスペシャルサンクス
+            resultText += "このUnityプロジェクトが利用しているライブラリ一覧です。"+"\n";
+            resultText += "\n\n更新日時："+DateTime.Now.ToString("yyyy/MM/dd_HH:mm:ss") +"\n";
+            
+            
+            resultText += "\n" + "| Name  | License Type | Charge Type | URL1 | URL2 | Memo1 | Add Date |" + "\n";
+            resultText += "" + "| -------------  | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |" + "\n";
+
+            
+            configList.ForEach(config =>
+            {
+                string validMemo1 = config.GetMemo1.Replace("\n", "<br>");
+                
+                
+                resultText += "" 
+                              + "| "+config.GetLibrayName+ " "
+                              + "| "+config.GetLicenseType+ " "
+                              + "| "+config.GetChargeType+ " "
+                              + "| "+config.GetWebURL1+ " "
+                              + "| "+config.GetWebURL2+ " "
+                              + "| "+validMemo1+ " "
+                              + "| "+config.GetCreatedTimeText+ " "
+                              + "|"
+                              + "\n";
+                
+            });
+            
+            
+            return resultText;
+        }
         public string GenerateRawTxtForUseApp(List<LicenseConfig> configList)
         {
             OutputTemplate outputTemplate = SearchOutputTemplate();
@@ -171,6 +206,6 @@ namespace SyskenTLib.LicenseMasterEditor
             
             return resultText;
         }
-        
+
     }
 }
