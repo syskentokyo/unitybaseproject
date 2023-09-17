@@ -55,11 +55,7 @@ namespace SyskenTLib.BaseProject.Base.Editor
             InitReadConfig();
 
             _currentSetupStatus = SetupStatus.Init;
-
-            //
-            //事前準備
-            Debug.Log("ビルド設定のうち、プライベートのものを作成");
-            CustomBuild.AutoCreatePrivateConfig();
+            
 
 
             //

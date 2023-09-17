@@ -10,42 +10,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c1c79ab8ad848828fa67f08a985009f, type: 3}
-  m_Name: ReleaseConfig
+  m_Name: Development2Config
   m_EditorClassIdentifier: 
-  isClearBuildCache: 1
-  isDevelopmentBuild: 0
+  isClearBuildCache: 0
+  isDevelopmentBuild: 1
   isConnectWithProfiler: 0
   isDeepPriling: 0
   isAllowDebugging: 0
-  saveDirectoryPreName: release
-  saveAppName: release
+  saveDirectoryPreName: dev
+  saveAppName: dev
   saveDirectoryType: 0
-  _appConfig: {fileID: 11400000, guid: 46cec0fc3eb2b4976b473f6b31b6a177, type: 2}
+  _appConfig: {fileID: 11400000, guid: 40f14cf83cc334ec18fc056c7f890143, type: 2}
   isActiveUserOriginalProcessPreBuild: 0
   isActiveUserOriginalProcessAfterBuild: 0
   userOriginalParamList: []
-  userOriginalConfig: {fileID: 0}
+  userOriginalConfig: {fileID: 11400000, guid: 19da8a82733a4494e90d8dfbf34b8ce6, type: 2}
   addDefineList: []
   _targetSceneList:
-  - {fileID: 102900000, guid: d1431bce4eeee48f5a6d23cb3742e7ff, type: 3}
-  - {fileID: 102900000, guid: 7c35c41e4a86040918940f0d4e2710b8, type: 3}
-  - {fileID: 102900000, guid: 783a648443d124cc29384301bc30d46d, type: 3}
+  - {fileID: 102900000, guid: fcb656e31740046baa7853bdb473b4b0, type: 3}
   isAutoOpenDirectoryAfterBuild_ONWINDOWS: 1
-  isAutoRunAfterBuild_ONWINDOWS: 0
+  isAutoRunAfterBuild_ONWINDOWS: 1
   isAutoOpenDirectoryAfterBuild_ONOSX: 1
-  isAutoRunAfterBuild_ONOSX: 0
+  isAutoRunAfterBuild_ONOSX: 1
   isAutoOpenDirectoryAfterBuild_ONANDROID: 1
-  isAutoRunAfterBuild_ONANDROID: 0
+  isAutoRunAfterBuild_ONANDROID: 1
   isOverwrittenBuildAppBundle_ONANDROID: 0
   isOverwrittenAppID_ONANDROID: 0
-  overwrittenAppID_ONANDROID: tokyo.sysken.ios.dev.publicgithub.app20230530020835
+  overwrittenAppID_ONANDROID: 
   isOverwrittenKeystoreConfig_ONANDROID: 0
   overwrittenKeystoreName_ONANDROID: 
   overwrittenKeystorePass_ONANDROID: 
   overwrittenKeystoreKeyAliasName_ONANDROID: 
   overwrittenKeystoreKeyAliasPass_ONANDROID: 
   isAutoOpenDirectoryAfterBuild_ONIOS: 1
-  isAutoRunAfterBuild_ONIOS: 0
+  isAutoRunAfterBuild_ONIOS: 1
   isOverwrittenAppIDAndTeamID_ONIOS: 0
-  overwrittenAppID_ONIOS: tokyo.sysken.ios.dev.publicgithub.app20230530020835
-  overwrittenTeamID_ONIOS: 3WZMYL5AE6
+  overwrittenAppID_ONIOS: 
+  overwrittenTeamID_ONIOS: 

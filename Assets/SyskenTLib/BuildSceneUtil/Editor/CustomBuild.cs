@@ -31,6 +31,8 @@ namespace SyskenTLib.BuildSceneUtilEditor
 
         public const string SAVEKEY_CURRENT_BUILD_ROOT_DIR_PATH = "currentBuildTargetRootDirectoryPath";
         public const string SAVEKEY_LAST_BUILD_DIR_PATH = "lastBuildDirectoryPath";
+        public const string SAVEKEY_LAST_BUILD_MACHINE_NAME = "lastBuildMachineName";
+        public const string SAVEKEY_LAST_BUILD_MACHINE_ID = "lastBuildMachineID";
 
         /// <summary>
         ///  ビルド保存先のルートフォルダのパス
@@ -84,19 +86,53 @@ namespace SyskenTLib.BuildSceneUtilEditor
             }
             
         }
+        
+        public static string _lastBuildMachineName
+        {
+            get
+            {
+                string saveValue=  EditorUserSettings.GetConfigValue(SAVEKEY_LAST_BUILD_MACHINE_NAME);
+                if (saveValue == null)
+                {
+                    return "";
+                }
+
+                return saveValue;
+            }
+
+            set
+            {
+                EditorUserSettings.SetConfigValue(SAVEKEY_LAST_BUILD_MACHINE_NAME, value);
+            }
+            
+        }
+        
+        public static string _lastBuildMachineID
+        {
+            get
+            {
+                string saveValue=  EditorUserSettings.GetConfigValue(SAVEKEY_LAST_BUILD_MACHINE_ID);
+                if (saveValue == null)
+                {
+                    return "";
+                }
+
+                return saveValue;
+            }
+
+            set
+            {
+                EditorUserSettings.SetConfigValue(SAVEKEY_LAST_BUILD_MACHINE_ID, value);
+            }
+            
+        }
 
         /// <summary>
         /// プラットフォーム検知を登録済みか
         /// </summary>
         public static bool _isDoneRegistChangePlatformAction = false;
         
-
-        private static readonly string privateRootDirPath = "Assets/SyskenTLib/BuildSceneUtil/Editor/1_PrivateConfig/";
-        private static readonly string private1ConfigFileName = "Private1BuildConfig.asset";
-        private static readonly string private2ConfigFileName = "Private2BuildConfig.asset";
-        private static readonly string private3ConfigFileName = "Private3BuildConfig.asset";
-        private static readonly string privateGitignoreFileName = ".gitignore";
-
+        
         //
         // アプリ設定
         //
@@ -120,7 +156,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
 
         #region メニュー
 
-        [MenuItem("SyskenTLib/CustomBuild/OpenLastDirectory",priority = 30)]
+        [MenuItem("File/CustomBuild/OpenLastDirectory",priority = 400)]
         private static void OpenLastDirectory()
         {
             RegistChangedPlatform();//プラットフォーム変更を検知開始
@@ -131,7 +167,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
             }
         }
         
-        [MenuItem("SyskenTLib/CustomBuild/LogOutputLastBuildInfo",priority = 40)]
+        [MenuItem("File/CustomBuild/LogOutputLastBuildInfo",priority =401)]
         private static void LogOutputLastBuildInfo()
         {
             RegistChangedPlatform();//プラットフォーム変更を検知開始
@@ -141,7 +177,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
         }
 
         
-        [MenuItem("SyskenTLib/CustomBuild/FindRootConfig",priority = 100)]
+        [MenuItem("File/CustomBuild/FindRootConfig",priority = 420)]
         private static void FindRootConfig()
         {
             RegistChangedPlatform();//プラットフォーム変更を検知開始
@@ -155,7 +191,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
 
         }
         
-        [MenuItem("SyskenTLib/CustomBuild/FindRootPrivateConfig",priority = 100)]
+        [MenuItem("File/CustomBuild/FindRootPrivateConfig",priority = 421)]
         private static void FindRootPrivateConfig()
         {
             RegistChangedPlatform();//プラットフォーム変更を検知開始
@@ -168,29 +204,27 @@ namespace SyskenTLib.BuildSceneUtilEditor
             Selection.activeObject = rootConfig;//UnityEditor上で選択したことにする
 
         }
-        
-        [MenuItem("SyskenTLib/CustomBuild/AutoCreatePrivateConfig",priority = 210)]
-        public static void AutoCreatePrivateConfig()
-        {
-            RegistChangedPlatform();//プラットフォーム変更を検知開始
-            InitPrivateConfig();
-        }
 
-        [MenuItem("SyskenTLib/CustomBuild/ReSelectBuildTargetDirectory", priority = 320)]
-        private static void ReSelectBuildTargetRoot()
-        {
-            RegistChangedPlatform(); //プラットフォーム変更を検知開始
-            SelectBuildRootDir();
-        }
-        
-        
-        [MenuItem("SyskenTLib/CustomBuild/SelectAppConfigDirtory",priority = 400)]
+        [MenuItem("File/CustomBuild/FindAppConfigDirectory",priority = 422)]
         private static void SelectAppConfigDirectory()
         {
             RegistChangedPlatform();//プラットフォーム変更を検知開始
 
             Selection.activeObject = GetAppRootConfig();//UnityEditor上で選択したことにする
         }
+        
+        
+        [MenuItem("File/CustomBuild/ReSelectBuildTargetDirectory", priority = 440)]
+        private static void ReSelectBuildTargetRoot()
+        {
+            ResetBuildConfigCache();
+            
+            RegistChangedPlatform(); //プラットフォーム変更を検知開始
+            SelectBuildRootDir();
+        }
+        
+        
+
 
 
         #endregion
@@ -219,10 +253,9 @@ namespace SyskenTLib.BuildSceneUtilEditor
             //一時保存データをリセットする
             _isDoneRegistChangePlatformAction = false;
 
-            currentBuildTargetRootDirectoryPath = "";
-            _lastBuildConfig = new CustomBuildConfig();
-            _lastBuildType = CustomBuildType.Unknown;
-            _lastBuildDirectoryPath = "";
+            
+            //ビルドしたときの情報を初期化
+            ResetBuildConfigCache();
         }
         
         
@@ -230,90 +263,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
         
         
         
-        private static void InitPrivateConfig()
-        {
-            SyskenTLibCustomPrivateRootConfig rootConfig = GetRootPrivateConfig();
 
-            string private1Path = privateRootDirPath + private1ConfigFileName;
-            CustomBuildConfig private1config  = AssetDatabase.LoadAssetAtPath<CustomBuildConfig> (private1Path);
-            if (private1config == null)
-            {
-                //設定ファイルがなかったので作成
-                Debug.Log("プライベート１の設定ファイル作成");
-                CustomBuildConfig config =  CreateInstance<CustomBuildConfig>();
-                AssetDatabase.CreateAsset(config, private1Path);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-            
-            if (rootConfig.private1BuildConfig == null)
-            {
-                //設定ファイルを紐付ける
-                Debug.Log("プライベート１の設定ファイルをルートコンフィグに設定");
-                rootConfig.private1BuildConfig = AssetDatabase.LoadAssetAtPath<CustomBuildConfig> (private1Path);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-            
-            string private2Path = privateRootDirPath + private2ConfigFileName;
-            CustomBuildConfig private2config  = AssetDatabase.LoadAssetAtPath<CustomBuildConfig> (private2Path);
-            if (private2config == null)
-            {
-                //設定ファイルがなかったので作成
-                Debug.Log("プライベート2の設定ファイル作成");
-                CustomBuildConfig config =  CreateInstance<CustomBuildConfig>();
-                AssetDatabase.CreateAsset(config, private2Path);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-            
-            if (rootConfig.private2BuildConfig == null)
-            {
-                //設定ファイルを紐付ける
-                Debug.Log("プライベート2の設定ファイルをルートコンフィグに設定");
-                rootConfig.private2BuildConfig =  AssetDatabase.LoadAssetAtPath<CustomBuildConfig> (private2Path);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-            
-            string private3Path = privateRootDirPath + private3ConfigFileName;
-            CustomBuildConfig private3config  = AssetDatabase.LoadAssetAtPath<CustomBuildConfig> (private3Path);
-            if (private3config == null)
-            {
-                //設定ファイルがなかったので作成
-                Debug.Log("プライベート3の設定ファイル作成");
-                CustomBuildConfig config =  CreateInstance<CustomBuildConfig>();
-                AssetDatabase.CreateAsset(config, private3Path);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-            
-            if (rootConfig.private3BuildConfig == null)
-            {
-                //設定ファイルを紐付ける
-                Debug.Log("プライベート3の設定ファイルをルートコンフィグに設定");
-                rootConfig.private3BuildConfig = AssetDatabase.LoadAssetAtPath<CustomBuildConfig> (private3Path);;
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-
-
-            string gitignorePath = privateRootDirPath + privateGitignoreFileName;
-            if (File.Exists(gitignorePath) == false)
-            {
-                //設定ファイルがなかったので作成
-                Debug.Log("プライベート用に、Gitignoreを作成する");
-                string fileText = "";
-                fileText += private1ConfigFileName + "\n";
-                fileText += private2ConfigFileName + "\n";
-                fileText += private3ConfigFileName + "\n";
-                
-                File.WriteAllText(gitignorePath,fileText);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-            
-        }
 
         #region パス取得系
 
@@ -508,72 +458,108 @@ namespace SyskenTLib.BuildSceneUtilEditor
         
         
         
-        [MenuItem("File/BuildRelease",priority = 310)]
+        [MenuItem("File/BuildRelease",priority = 460)]
         private static void BuildRelease()
         {
             StartBuild(CustomBuildType.Release);
         }
         
-        [MenuItem("File/BuildAdhoc1",priority = 310)]
+        [MenuItem("File/BuildAdhoc1",priority = 510)]
         private static void BuildAdhoc1()
         {
             StartBuild(CustomBuildType.Adhoc1);
         }
         
-        [MenuItem("File/BuildAdhoc2",priority = 310)]
+        [MenuItem("File/BuildAdhoc2",priority = 510)]
         private static void BuildAdhoc2()
         {
             StartBuild(CustomBuildType.Adhoc2);
         }
         
-        [MenuItem("File/BuildDevelopment1",priority = 410)]
+        [MenuItem("File/BuildDevelopment1",priority = 610)]
         private static void BuildDevelopment1()
         {
             StartBuild(CustomBuildType.Development1);
         }
         
-        [MenuItem("File/BuildDevelopment2",priority = 410)]
+        [MenuItem("File/BuildDevelopment2",priority = 610)]
         private static void BuildDevelopment2()
         {
             StartBuild(CustomBuildType.Development2);
         }
         
-        [MenuItem("File/BuildDevelopment3",priority = 410)]
+        [MenuItem("File/BuildDevelopment3",priority = 610)]
         private static void BuildDevelopment3()
         {
             StartBuild(CustomBuildType.Development3);
         }
         
-        [MenuItem("File/BuildPrivate1",priority = 510)]
+        [MenuItem("File/BuildPrivate1",priority = 710)]
         private static void BuildPrivate1()
         {
             StartBuild(CustomBuildType.Private1);
         }
         
-        [MenuItem("File/BuildPrivate2",priority = 510)]
+        [MenuItem("File/BuildPrivate2",priority = 710)]
         private static void BuildPrivate2()
         {
             StartBuild(CustomBuildType.Private2);
         }
         
-        [MenuItem("File/BuildPrivate3",priority = 510)]
+        [MenuItem("File/BuildPrivate3",priority = 710)]
         private static void BuildPrivate3()
         {
             StartBuild(CustomBuildType.Private3);
         }
 
 
+        /// <summary>
+        /// ビルドした時の情報を初期化
+        /// </summary>
+        private static void ResetBuildConfigCache()
+        {
+            currentBuildTargetRootDirectoryPath = "";
+            _lastBuildConfig = new CustomBuildConfig();
+            _lastBuildType = CustomBuildType.Unknown;
+            _lastBuildDirectoryPath = "";
+        }
+
 
 
 
         private static void StartBuild(CustomBuildType buildType)
         {
-            RegistChangedPlatform();//プラットフォーム変更を検知開始
-            
-            Debug.Log("ビルドスタート:"+buildType);
+            RegistChangedPlatform(); //プラットフォーム変更を検知開始
 
-            //ルートフォルダ選択
-            if (string.IsNullOrEmpty(currentBuildTargetRootDirectoryPath))
+            Debug.Log("ビルドスタート:" + buildType);
+
+
+            //
+            // PC変更した場合：キャッシュなど削除
+            //
+            string buildMachineName = Environment.MachineName;
+            string buildMachineID = Environment.OSVersion+"_"+SystemInfo.deviceUniqueIdentifier;
+            Debug.Log("ビルドPC名前："+buildMachineName);
+            if (_lastBuildMachineName == ""
+                || _lastBuildMachineName != buildMachineName
+                ||_lastBuildMachineID == ""
+                || _lastBuildMachineID != buildMachineID)
+            {
+                //PCを変えていた場合
+                Debug.Log("ビルドPC名またはPC識別IDが変更されていました。："+buildMachineName+"  "+ buildMachineID);
+
+                //キャッシュ削除
+                ResetBuildConfigCache();
+                
+            }
+            _lastBuildMachineName = buildMachineName;
+            _lastBuildMachineID= buildMachineID;
+
+            
+
+
+                //ルートフォルダ選択
+        if (string.IsNullOrEmpty(currentBuildTargetRootDirectoryPath))
             {
                 SelectBuildRootDir();
             }
@@ -622,21 +608,18 @@ namespace SyskenTLib.BuildSceneUtilEditor
                     break;
                 case CustomBuildType.Private1:
                 {
-                    InitPrivateConfig();//プライベートコンフィグファイルを作成（ない場合のみ）
                     nextBuildConfig = GetRootPrivateConfig().private1BuildConfig;
                 }
                     break;
                 
                 case CustomBuildType.Private2:
                 {
-                    InitPrivateConfig();//プライベートコンフィグファイルを作成（ない場合のみ）
                     nextBuildConfig = GetRootPrivateConfig().private2BuildConfig;
                 }
                     break;
                 
                 case CustomBuildType.Private3:
                 {
-                    InitPrivateConfig();//プライベートコンフィグファイルを作成（ない場合のみ）
                     nextBuildConfig = GetRootPrivateConfig().private3BuildConfig;
                 }
                     break;
@@ -700,7 +683,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
                 AppRootConfig appRootConfig = GetAppRootConfig();
                 _backupAppConfig = appRootConfig._appConfig;
                 appRootConfig._appConfig = config._appConfig;
-                Debug.Log("アプリ設定書き換え:"+appRootConfig._appConfig.GetConfigType());
+                Debug.Log("アプリ設定を一時変更しました:"+appRootConfig._appConfig.GetConfigType());
                 EditorUtility.SetDirty(appRootConfig);
 
             }
@@ -714,10 +697,8 @@ namespace SyskenTLib.BuildSceneUtilEditor
             // ユーザオリジナルの処理
             //
             UserCustomProcessManager userCustomProcessManager = new UserCustomProcessManager();
-            if (config.isActiveUserOriginalProcessPreBuild)
-            {
-                userCustomProcessManager.StartUserOriginalProcessPreBuild(buildType,config.userOriginalParamList,config.userOriginalConfig);
-            }
+            userCustomProcessManager.StartUserOriginalProcessPreBuild(buildType,config.userOriginalParamList,config.userOriginalConfig);
+            
 
             //ビルドオプション
             BuildOptions nextBuildOptions = BuildOptions.None;
@@ -782,14 +763,16 @@ namespace SyskenTLib.BuildSceneUtilEditor
             );
 
             AppRootConfig currentappRootConfig = GetAppRootConfig();
-            Debug.Log("ビルド結果:アプリ設定："+   currentappRootConfig._appConfig.GetConfigType());
+            Debug.Log("ビルド結果:対象アプリ設定："+   currentappRootConfig._appConfig.GetConfigType());
             
             string buildSceneLog = "";
             buildSceneArray.ToList().ForEach(buildScene => { buildSceneLog+= "" + buildScene.path+"\n"; });
             Debug.Log("ビルド結果："+buildReport.summary.result);
+            Debug.Log("ビルド結果:PC名="+_lastBuildMachineName);
+            Debug.Log("ビルド結果:PC識別ID="+_lastBuildMachineID);
             Debug.Log("ビルド結果:シーン="+buildSceneLog);
             Debug.Log("ビルド結果:ビルド時間="+buildReport.summary.totalTime);
-            Debug.Log("ビルド結果:ビルドしたファイル数="+buildReport.files.Length);
+            Debug.Log("ビルド結果:ビルドしたファイル数="+buildReport.GetFiles().Length);
             Debug.Log("ビルド結果:エラー数="+buildReport.summary.totalErrors);
             Debug.Log("ビルド結果:警告数="+buildReport.summary.totalWarnings);
             Debug.Log("ビルド結果:ビルドオプション="+nextBuildOptions);
@@ -808,10 +791,8 @@ namespace SyskenTLib.BuildSceneUtilEditor
             //
             // ユーザオリジナルの処理
             //
-            if (config.isActiveUserOriginalProcessAfterBuild)
-            {
-                userCustomProcessManager.StartUserOriginalProcessAfterBuild(buildType,config.userOriginalParamList,config.userOriginalConfig);
-            }
+            userCustomProcessManager.StartUserOriginalProcessAfterBuild(buildType,config.userOriginalParamList,config.userOriginalConfig);
+            
             
             //
             // Android用の設定を戻す

@@ -13,7 +13,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
     }
     
     
-    [CreateAssetMenu(fileName = "CustomBuildConfig", menuName = "CustomBuildConfig", order = 0)]
+
     public class CustomBuildConfig : ScriptableObject
     {
         [Header("共通")] public bool isClearBuildCache = false;
@@ -36,9 +36,7 @@ namespace SyskenTLib.BuildSceneUtilEditor
         [Header("アプリ内定義")] public CommonAppConfig.AppConfig _appConfig;
         
         
-        [Header("ユーザオリジナル処理")] 
-        public bool isActiveUserOriginalProcessPreBuild = false;
-        public bool isActiveUserOriginalProcessAfterBuild = false;
+        [Header("ユーザオリジナル処理")]
         public List<string> userOriginalParamList;
         public BaseUserOriginalConfig userOriginalConfig;
         
