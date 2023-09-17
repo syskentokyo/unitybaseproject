@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _libraryName: UnityBaseProject
   _memo1: 
-  _libversion: 1.0.0
+  _libversion: 1.2.0
   _webURL1: https://github.com/syskentokyo/unitybaseproject
   _webURL2: 
   _createdTimeText: 2023/06/13_02:17:37
   _licenseType: 10
+  _chargeType: 0
   _isMustShowLicense: 1
   showLicenseOrder: 210
   _customText1: 

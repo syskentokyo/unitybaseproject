@@ -1,6 +1,6 @@
 LicenseMasterで自動作成されました。
 
-メモ更新日時：2023/09/18_01:25:52
+メモ更新日時：2023/09/18_01:27:20
 
 ## UnityBaseProject
 
@@ -14,7 +14,7 @@ LicenseMasterで自動作成されました。
 * ライセンス：MIT
 * 料金タイプ：Unknown
 * ライセンス表記が必要？：True
-* バージョン：1.0.0
+* バージョン：1.2.0
 * WebURL1：https://github.com/syskentokyo/unitybaseproject
 * WebURL2：
 * カスタム１：
