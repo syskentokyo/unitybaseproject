@@ -1,0 +1,16 @@
+{
+    "name": "SyskenTLib.CommonAppConfig",
+    "rootNamespace": "SyskenTLib.SimpleUIUtil",
+    "references": [
+        "GUID:637f940bd70764ce88374c546223190d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
