@@ -21,13 +21,13 @@ MonoBehaviour:
   saveAppName: pridev
   saveDirectoryType: 0
   _appConfig: {fileID: 11400000, guid: 19cd14d7a912e4304b0880fb1ac16eca, type: 2}
-  isActiveUserOriginalProcessPreBuild: 0
-  isActiveUserOriginalProcessAfterBuild: 0
   userOriginalParamList: []
   userOriginalConfig: {fileID: 11400000, guid: 19da8a82733a4494e90d8dfbf34b8ce6, type: 2}
   addDefineList: []
   _targetSceneList:
-  - {fileID: 102900000, guid: bcb27f3354a8c4baaaa1e56aa966fceb, type: 3}
+  - {fileID: 102900000, guid: d1431bce4eeee48f5a6d23cb3742e7ff, type: 3}
+  - {fileID: 102900000, guid: 7c35c41e4a86040918940f0d4e2710b8, type: 3}
+  - {fileID: 102900000, guid: 783a648443d124cc29384301bc30d46d, type: 3}
   isAutoOpenDirectoryAfterBuild_ONWINDOWS: 1
   isAutoRunAfterBuild_ONWINDOWS: 1
   isAutoOpenDirectoryAfterBuild_ONOSX: 1
