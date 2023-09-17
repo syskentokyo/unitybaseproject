@@ -8,7 +8,7 @@ using UnityEngine;
 namespace SyskenTLib.SimpleUIUtil
 {
     /// <summary>
-    /// Canvasのオーダーを上書きします
+    /// 実行時に、Canvasのオーダーを上書きします
     /// </summary>
     [RequireComponent(typeof(Canvas))]
     [DefaultExecutionOrder((int)CommonDefaultExecutionOrder.ExecutionOrder.DefaultDelayOne)]
