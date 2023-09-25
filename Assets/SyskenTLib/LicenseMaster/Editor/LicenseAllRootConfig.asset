@@ -13,12 +13,10 @@ MonoBehaviour:
   m_Name: LicenseAllRootConfig
   m_EditorClassIdentifier: 
   _licenseAllConfigList:
-  - {fileID: 11400000, guid: 481bc26800dd74de891f00670325e43f, type: 2}
-  - {fileID: 11400000, guid: 0b47e33920f6d4847beaba3e5dbef7f8, type: 2}
-  - {fileID: 11400000, guid: 68db7412cabed4d0693d8264933557e9, type: 2}
-  - {fileID: 11400000, guid: 5a992021776554f1d915554bfc1523eb, type: 2}
-  - {fileID: 11400000, guid: 717973a01ad9f446ca890c47f6424dea, type: 2}
+  - {fileID: 11400000, guid: 8ac4e3dc9578e470db3ec4cf07435606, type: 2}
+  - {fileID: 11400000, guid: 1879b0ced03764f2f8e9ed77290ca1bd, type: 2}
   - {fileID: 11400000, guid: 61c848b1adb1d4b8ea34c966ce58d2ec, type: 2}
+  - {fileID: 11400000, guid: bf6b3081cec264af4a322d41bca4130f, type: 2}
   _licenseHtml: {fileID: 4900000, guid: 3cde6c1e6e07494f99302e5987578f90, type: 3}
   _licenseMarkdown: {fileID: 4900000, guid: d26c5da25f6547edb2caa1afd56ac64d, type: 3}
   _licenseRawTxt: {fileID: 4900000, guid: ba4625cd84c94b4e9a266501c28b95bf, type: 3}

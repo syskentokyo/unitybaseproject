@@ -114,6 +114,17 @@ namespace SyskenTLib.LicenseMasterEditor
                 resultText += "\n\n\n* " + "バージョン：" + config.GetLibVersion;
                 resultText += "\n\n\n* " + "WebURL1：" + config.GetWebURL1;
                 resultText += "\n* " + "WebURL2：" + config.GetWebURL2;
+                
+                resultText += "\n* " + "使用しているライブラリ";
+                config.GetUseLicenseList.ForEach(useLibConfig =>
+                {
+                    if (useLibConfig != null)
+                    {
+                        resultText += "\n  * " + "" + useLibConfig.GetLibrayName+ " ( " + useLibConfig.GetWebURL1 +
+                                      " ) ";
+                    }
+                });
+                
                 resultText += "\n\n\n* " + "カスタム１：" + config.GetCustomText1;
                 resultText += "\n* " + "カスタム2：" + config.GetCustomText2;
 
@@ -149,13 +160,23 @@ namespace SyskenTLib.LicenseMasterEditor
             resultText += "\n\n更新日時："+DateTime.Now.ToString("yyyy/MM/dd_HH:mm:ss") +"\n";
             
             
-            resultText += "\n" + "| Name  | License Type | Charge Type | URL1 | URL2 | Memo1 | Add Date |" + "\n";
-            resultText += "" + "| -------------  | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |" + "\n";
+            resultText += "\n" + "| Name  | License Type | Charge Type | URL1 | URL2 | Memo1 | Use Lib | Add Date |" + "\n";
+            resultText += "" + "| -------------  | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |" + "\n";
 
             
             configList.ForEach(config =>
             {
                 string validMemo1 = config.GetMemo1.Replace("\n", "<br>");
+                
+                string useLibTxt = "";
+                config.GetUseLicenseList.ForEach(useLibConfig =>
+                {
+                    if (useLibConfig != null)
+                    {
+                        useLibTxt += "" + "" + useLibConfig.GetLibrayName+ " ( " + useLibConfig.GetWebURL1 +
+                                     " ) " + "<br>";
+                    }
+                });
                 
                 
                 resultText += "" 
@@ -165,6 +186,9 @@ namespace SyskenTLib.LicenseMasterEditor
                               + "| "+config.GetWebURL1+ " "
                               + "| "+config.GetWebURL2+ " "
                               + "| "+validMemo1+ " "
+                              
+                              + "| "+useLibTxt+ " "
+                              
                               + "| "+config.GetCreatedTimeText+ " "
                               + "|"
                               + "\n";
