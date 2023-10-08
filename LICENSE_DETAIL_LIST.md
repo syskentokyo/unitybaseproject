@@ -1,7 +1,7 @@
 このUnityプロジェクトが利用しているライブラリ一覧(詳細)です。
 
 
-更新日時：2023/09/18_01:27:18
+更新日時：2023/10/08_23:02:07
 
 
 -------
@@ -25,6 +25,7 @@
 
 * WebURL1：https://github.com/syskentokyo/unitybaseproject
 * WebURL2：
+* 使用しているライブラリ
 
 
 * カスタム１：
@@ -84,6 +85,7 @@ SOFTWARE.
 
 * WebURL1：
 * WebURL2：
+* 使用しているライブラリ
 
 
 * カスタム１：
@@ -143,6 +145,7 @@ SOFTWARE.
 
 * WebURL1：
 * WebURL2：
+* 使用しているライブラリ
 
 
 * カスタム１：
@@ -202,6 +205,7 @@ SOFTWARE.
 
 * WebURL1：
 * WebURL2：
+* 使用しているライブラリ
 
 
 * カスタム１：
@@ -242,7 +246,7 @@ SOFTWARE.
 
 
 -------
-## UnityAutoFormatConfig
+## unityautoformatconfig 
 ### メモ１：
 
 ```
@@ -251,20 +255,21 @@ SOFTWARE.
 
 
 
-* 追加日：2023/04/23_17:08:57
+* 追加日：2023/10/08_22:59:51
 * ライセンス：MIT
-* 料金タイプ：Unknown
+* 料金タイプ：Free
 * ライセンス表記が必要？：True
 
 
-* バージョン：1.0.0
+* バージョン：1.1.0
 
 
 * WebURL1：
 * WebURL2：
+* 使用しているライブラリ
 
 
-* カスタム１：
+* カスタム１：https://github.com/syskentokyo/unityautoformatconfig
 * カスタム2：
 
 ### ライセンス表記内容：
@@ -273,7 +278,7 @@ SOFTWARE.
 
 MIT License
 
-Copyright (c) 2023 SyskenTokyo
+Copyright (c) 2022 SyskenTokyo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -316,11 +321,12 @@ SOFTWARE.
 * ライセンス表記が必要？：True
 
 
-* バージョン：1.6.0
+* バージョン：1.8.0
 
 
 * WebURL1：https://github.com/syskentokyo/unitylicensemaster
 * WebURL2：
+* 使用しているライブラリ
 
 
 * カスタム１：

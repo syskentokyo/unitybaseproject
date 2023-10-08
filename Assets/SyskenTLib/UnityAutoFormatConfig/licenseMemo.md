@@ -1,8 +1,8 @@
 LicenseMasterで自動作成されました。
 
-メモ更新日時：2023/09/18_01:25:52
+メモ更新日時：2023/10/08_23:02:10
 
-## UnityAutoFormatConfig
+## unityautoformatconfig 
 
 * メモ１：
 
@@ -10,14 +10,15 @@ LicenseMasterで自動作成されました。
 
 ```
 
-* 追加日：2023/04/23_17:08:57
+* 追加日：2023/10/08_22:59:51
 * ライセンス：MIT
-* 料金タイプ：Unknown
+* 料金タイプ：Free
 * ライセンス表記が必要？：True
-* バージョン：1.0.0
+* バージョン：1.1.0
 * WebURL1：
 * WebURL2：
-* カスタム１：
+* 使用しているライブラリ
+* カスタム１：https://github.com/syskentokyo/unityautoformatconfig
 * カスタム2：
 
 
@@ -27,7 +28,7 @@ LicenseMasterで自動作成されました。
 
 MIT License
 
-Copyright (c) 2023 SyskenTokyo
+Copyright (c) 2022 SyskenTokyo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

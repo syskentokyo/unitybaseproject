@@ -18,12 +18,6 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
 
         //設定の定義
 
-        /// <summary>
-        /// セーブデータ管理
-        /// </summary>
-        private SaveDataManager _saveDataManager = new SaveDataManager();
-        
-        
         void OnPreprocessAsset()
         {
             if (assetImporter.ToString().Contains("VideoClipImporter")== false )
@@ -31,22 +25,20 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
                 //ビデオ以外だった場合
                 return;
             }
+
+            STAutoFormatConfig formatConfig = ConfigManager.GetGeneralRootConfig();
             
             
             VideoClipImporter nextImporter = assetImporter as VideoClipImporter;
             
-            bool _isAllSkip = _saveDataManager.ReadUserConfigBool(CommonDefine.isAllSkipVideoKEY);
-            if (_isAllSkip)
+            if (formatConfig.compileTimingVideo == FormatTiming.None)
             {
                 return;
             }
 
-
+            STRootVideoConfig rootConfig = ConfigManager.GetVideoRootConfig();
             
-            bool _isEveryImportTimeChangeConfig =
-                _saveDataManager.ReadUserConfigBool(CommonDefine._isEveryImportTimeChangeConfigVideoKey);
-
-            if (_isEveryImportTimeChangeConfig == false
+            if ((formatConfig.compileTimingVideo == FormatTiming.FirstOnly)
                 && nextImporter.importSettingsMissing == false)
             {
                 //初回インポート以外ののとき
@@ -64,7 +56,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
                     //
                     // 通常
                     //
-                    SetupNormal(nextImporter);
+                    SetupConfig(nextImporter,rootConfig.normalConfig);
                 }
                     break;
                 
@@ -73,7 +65,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
                     //
                     // その他、すべて
                     //
-                    SetupOther(nextImporter);
+                    SetupConfig(nextImporter,rootConfig.defaultConfig);
                 }
                     break;
                 
@@ -82,7 +74,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
                     //
                     // 
                     //
-                    SetupCustom1(nextImporter);
+                    SetupConfig(nextImporter,rootConfig.custom1Config);
                 }
                     break;
                 
@@ -91,7 +83,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
                     //
                     // 
                     //
-                    SetupCustom2(nextImporter);
+                    SetupConfig(nextImporter,rootConfig.custom2Config);
                 }
                     break;
                 
@@ -101,7 +93,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
                     //
                     // 
                     //
-                    SetupCustom3(nextImporter);
+                    SetupConfig(nextImporter,rootConfig.custom3Config);
                 }
                     break;
             }
@@ -109,7 +101,7 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
 
         #region 用途ごとの設定
 
-        private void SetupNormal(VideoClipImporter targetImporter)
+        private void SetupConfig(VideoClipImporter targetImporter,STVideoConfig config)
         {
             
 
@@ -128,16 +120,16 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
             //Standalone(PC)
             VideoImporterTargetSettings nextImporterPlatformStanalone  = new VideoImporterTargetSettings();
             nextImporterPlatformStanalone.enableTranscoding = true;
-            nextImporterPlatformStanalone.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformStanalone.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
+            nextImporterPlatformStanalone.bitrateMode = config.videoBitrateModeOnStandalone;
+            nextImporterPlatformStanalone.spatialQuality = config.videoSpatialQualityOnStandalone;
             if (isHasAlpha)
             {
-                nextImporterPlatformStanalone.codec = VideoCodec.VP8;
+                nextImporterPlatformStanalone.codec = config.enableAlphaViewCodecOnStandalone;
             }
             else
             {
                 // 透過なし
-                nextImporterPlatformStanalone.codec = VideoCodec.H264;
+                nextImporterPlatformStanalone.codec = config.noAlphaViewCodecOnStandalone;
             }
             
             targetImporter.SetTargetSettings("Standalone",nextImporterPlatformStanalone);
@@ -145,16 +137,16 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
             //iOS
             VideoImporterTargetSettings nextImporterPlatformiOS = new VideoImporterTargetSettings();
             nextImporterPlatformiOS.enableTranscoding = true;
-            nextImporterPlatformiOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformiOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
+            nextImporterPlatformiOS.bitrateMode = config.videoBitrateModeOniOS;
+            nextImporterPlatformiOS.spatialQuality = config.videoSpatialQualityOniOS;
             if (isHasAlpha)
             {
-                nextImporterPlatformiOS.codec = VideoCodec.VP8;
+                nextImporterPlatformiOS.codec = config.enableAlphaViewCodecOniOS;
             }
             else
             {
                 // 透過なし
-                nextImporterPlatformiOS.codec = VideoCodec.H264;
+                nextImporterPlatformiOS.codec = config.noAlphaViewCodecOniOS;
             }
             
             targetImporter.SetTargetSettings("iPhone",nextImporterPlatformiOS);
@@ -162,16 +154,16 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
             //Android
             VideoImporterTargetSettings nextImporterPlatformAndroid = new VideoImporterTargetSettings();
             nextImporterPlatformAndroid.enableTranscoding = true;
-            nextImporterPlatformAndroid.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformAndroid.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
+            nextImporterPlatformAndroid.bitrateMode = config.videoBitrateModeOnAndroid;
+            nextImporterPlatformAndroid.spatialQuality = config.videoSpatialQualityOnAndroid;
             if (isHasAlpha)
             {
-                nextImporterPlatformAndroid.codec = VideoCodec.VP8;
+                nextImporterPlatformAndroid.codec = config.enableAlphaViewCodecOnAndroid;
             }
             else
             {
                 // 透過なし
-                nextImporterPlatformAndroid.codec = VideoCodec.H264;
+                nextImporterPlatformAndroid.codec = config.noAlphaViewCodecOnAndroid;
             }
             
             targetImporter.SetTargetSettings("Android",nextImporterPlatformAndroid);
@@ -179,16 +171,16 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
             //TVOS
             VideoImporterTargetSettings nextImporterPlatformtvOS = new VideoImporterTargetSettings();
             nextImporterPlatformtvOS.enableTranscoding = true;
-            nextImporterPlatformtvOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformtvOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
+            nextImporterPlatformtvOS.bitrateMode = config.videoBitrateModeOnTVOS;
+            nextImporterPlatformtvOS.spatialQuality = config.videoSpatialQualityOnTVOS;
             if (isHasAlpha)
             {
-                nextImporterPlatformtvOS.codec = VideoCodec.VP8;
+                nextImporterPlatformtvOS.codec = config.enableAlphaViewCodecOnTVOS;
             }
             else
             {
                 // 透過なし
-                nextImporterPlatformtvOS.codec = VideoCodec.H264;
+                nextImporterPlatformtvOS.codec = config.noAlphaViewCodecOnTVOS;
             }
             
 
@@ -197,436 +189,21 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
             //WEBGL
             VideoImporterTargetSettings nextImporterPlatformWebGL = new VideoImporterTargetSettings();
             nextImporterPlatformWebGL.enableTranscoding = true;
-            nextImporterPlatformWebGL.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformWebGL.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
+            nextImporterPlatformWebGL.bitrateMode = config.videoBitrateModeOnWebGL;
+            nextImporterPlatformWebGL.spatialQuality = config.videoSpatialQualityOnWebGL;
             if (isHasAlpha)
             {
-                nextImporterPlatformWebGL.codec = VideoCodec.VP8;
+                nextImporterPlatformWebGL.codec = config.enableAlphaViewCodecOnWebGL;
             }
             else
             {
                 // 透過なし
-                nextImporterPlatformWebGL.codec = VideoCodec.H264;
+                nextImporterPlatformWebGL.codec = config.noAlphaViewCodecOnWebGL;
             }
             
             targetImporter.SetTargetSettings("WebGL",nextImporterPlatformWebGL);
         }
 
-
-
-        private void SetupOther(VideoClipImporter targetImporter)
-        {
-            
-
-            //
-            // その他
-            //
-
-            //オリジナル動画の情報
-            bool isHasAlpha = targetImporter.sourceHasAlpha;
-
-
-            //プラットフォーム共通
-            targetImporter.importAudio = true;
-            targetImporter.keepAlpha = isHasAlpha;//透過があれば、透過設定維持
-
-            //Standalone(PC)
-            VideoImporterTargetSettings nextImporterPlatformStanalone  = new VideoImporterTargetSettings();
-            nextImporterPlatformStanalone.enableTranscoding = true;
-            nextImporterPlatformStanalone.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformStanalone.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformStanalone.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformStanalone.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("Standalone",nextImporterPlatformStanalone);
-
-            //iOS
-            VideoImporterTargetSettings nextImporterPlatformiOS = new VideoImporterTargetSettings();
-            nextImporterPlatformiOS.enableTranscoding = true;
-            nextImporterPlatformiOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformiOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformiOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformiOS.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("iPhone",nextImporterPlatformiOS);
-
-            //Android
-            VideoImporterTargetSettings nextImporterPlatformAndroid = new VideoImporterTargetSettings();
-            nextImporterPlatformAndroid.enableTranscoding = true;
-            nextImporterPlatformAndroid.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformAndroid.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformAndroid.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformAndroid.codec = VideoCodec.H264;
-            }
-            
-
-            targetImporter.SetTargetSettings("Android",nextImporterPlatformAndroid);
-
-            //TVOS
-            VideoImporterTargetSettings nextImporterPlatformtvOS = new VideoImporterTargetSettings();
-            nextImporterPlatformtvOS.enableTranscoding = true;
-            nextImporterPlatformtvOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformtvOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformtvOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformtvOS.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("tvOS",nextImporterPlatformtvOS);
-
-            //WEBGL
-            VideoImporterTargetSettings nextImporterPlatformWebGL = new VideoImporterTargetSettings();
-            nextImporterPlatformWebGL.enableTranscoding = true;
-            nextImporterPlatformWebGL.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformWebGL.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformWebGL.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformWebGL.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("WebGL",nextImporterPlatformWebGL);
-        }
-        
-        private void SetupCustom1(VideoClipImporter targetImporter)
-        {
-            
-
-            //
-            // 
-            //
-
-            //オリジナル動画の情報
-            bool isHasAlpha = targetImporter.sourceHasAlpha;
-
-
-            //プラットフォーム共通
-            targetImporter.importAudio = true;
-            targetImporter.keepAlpha = isHasAlpha;//透過があれば、透過設定維持
-
-            //Standalone(PC)
-            VideoImporterTargetSettings nextImporterPlatformStanalone  = new VideoImporterTargetSettings();
-            nextImporterPlatformStanalone.enableTranscoding = true;
-            nextImporterPlatformStanalone.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformStanalone.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformStanalone.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformStanalone.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("Standalone",nextImporterPlatformStanalone);
-
-            //iOS
-            VideoImporterTargetSettings nextImporterPlatformiOS = new VideoImporterTargetSettings();
-            nextImporterPlatformiOS.enableTranscoding = true;
-            nextImporterPlatformiOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformiOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformiOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformiOS.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("iPhone",nextImporterPlatformiOS);
-
-            //Android
-            VideoImporterTargetSettings nextImporterPlatformAndroid = new VideoImporterTargetSettings();
-            nextImporterPlatformAndroid.enableTranscoding = true;
-            nextImporterPlatformAndroid.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformAndroid.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformAndroid.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformAndroid.codec = VideoCodec.H264;
-            }
-            
-
-            targetImporter.SetTargetSettings("Android",nextImporterPlatformAndroid);
-
-            //TVOS
-            VideoImporterTargetSettings nextImporterPlatformtvOS = new VideoImporterTargetSettings();
-            nextImporterPlatformtvOS.enableTranscoding = true;
-            nextImporterPlatformtvOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformtvOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformtvOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformtvOS.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("tvOS",nextImporterPlatformtvOS);
-
-            //WEBGL
-            VideoImporterTargetSettings nextImporterPlatformWebGL = new VideoImporterTargetSettings();
-            nextImporterPlatformWebGL.enableTranscoding = true;
-            nextImporterPlatformWebGL.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformWebGL.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformWebGL.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformWebGL.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("WebGL",nextImporterPlatformWebGL);
-        }
-
-        
-        private void SetupCustom2(VideoClipImporter targetImporter)
-        {
-            
-
-            //
-            // 
-            //
-
-            //オリジナル動画の情報
-            bool isHasAlpha = targetImporter.sourceHasAlpha;
-
-
-            //プラットフォーム共通
-            targetImporter.importAudio = true;
-            targetImporter.keepAlpha = isHasAlpha;//透過があれば、透過設定維持
-
-            //Standalone(PC)
-            VideoImporterTargetSettings nextImporterPlatformStanalone  = new VideoImporterTargetSettings();
-            nextImporterPlatformStanalone.enableTranscoding = true;
-            nextImporterPlatformStanalone.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformStanalone.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformStanalone.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformStanalone.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("Standalone",nextImporterPlatformStanalone);
-
-            //iOS
-            VideoImporterTargetSettings nextImporterPlatformiOS = new VideoImporterTargetSettings();
-            nextImporterPlatformiOS.enableTranscoding = true;
-            nextImporterPlatformiOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformiOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformiOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformiOS.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("iPhone",nextImporterPlatformiOS);
-
-            //Android
-            VideoImporterTargetSettings nextImporterPlatformAndroid = new VideoImporterTargetSettings();
-            nextImporterPlatformAndroid.enableTranscoding = true;
-            nextImporterPlatformAndroid.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformAndroid.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformAndroid.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformAndroid.codec = VideoCodec.H264;
-            }
-            
-
-            targetImporter.SetTargetSettings("Android",nextImporterPlatformAndroid);
-
-            //TVOS
-            VideoImporterTargetSettings nextImporterPlatformtvOS = new VideoImporterTargetSettings();
-            nextImporterPlatformtvOS.enableTranscoding = true;
-            nextImporterPlatformtvOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformtvOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformtvOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformtvOS.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("tvOS",nextImporterPlatformtvOS);
-
-            //WEBGL
-            VideoImporterTargetSettings nextImporterPlatformWebGL = new VideoImporterTargetSettings();
-            nextImporterPlatformWebGL.enableTranscoding = true;
-            nextImporterPlatformWebGL.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformWebGL.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformWebGL.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformWebGL.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("WebGL",nextImporterPlatformWebGL);
-        }
-
-        
-        private void SetupCustom3(VideoClipImporter targetImporter)
-        {
-            
-
-            //
-            // 
-            //
-
-            //オリジナル動画の情報
-            bool isHasAlpha = targetImporter.sourceHasAlpha;
-
-
-            //プラットフォーム共通
-            targetImporter.importAudio = true;
-            targetImporter.keepAlpha = isHasAlpha;//透過があれば、透過設定維持
-
-            //Standalone(PC)
-            VideoImporterTargetSettings nextImporterPlatformStanalone  = new VideoImporterTargetSettings();
-            nextImporterPlatformStanalone.enableTranscoding = true;
-            nextImporterPlatformStanalone.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformStanalone.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformStanalone.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformStanalone.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("Standalone",nextImporterPlatformStanalone);
-
-            //iOS
-            VideoImporterTargetSettings nextImporterPlatformiOS = new VideoImporterTargetSettings();
-            nextImporterPlatformiOS.enableTranscoding = true;
-            nextImporterPlatformiOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformiOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformiOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformiOS.codec = VideoCodec.H264;
-            }
-
-            targetImporter.SetTargetSettings("iPhone",nextImporterPlatformiOS);
-
-            //Android
-            VideoImporterTargetSettings nextImporterPlatformAndroid = new VideoImporterTargetSettings();
-            nextImporterPlatformAndroid.enableTranscoding = true;
-            nextImporterPlatformAndroid.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformAndroid.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformAndroid.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformAndroid.codec = VideoCodec.H264;
-            }
-            
-
-            targetImporter.SetTargetSettings("Android",nextImporterPlatformAndroid);
-
-            //TVOS
-            VideoImporterTargetSettings nextImporterPlatformtvOS = new VideoImporterTargetSettings();
-            nextImporterPlatformtvOS.enableTranscoding = true;
-            nextImporterPlatformtvOS.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformtvOS.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformtvOS.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformtvOS.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("tvOS",nextImporterPlatformtvOS);
-
-            //WEBGL
-            VideoImporterTargetSettings nextImporterPlatformWebGL = new VideoImporterTargetSettings();
-            nextImporterPlatformWebGL.enableTranscoding = true;
-            nextImporterPlatformWebGL.bitrateMode = VideoBitrateMode.Medium;
-            nextImporterPlatformWebGL.spatialQuality = VideoSpatialQuality.MediumSpatialQuality;
-            if (isHasAlpha)
-            {
-                nextImporterPlatformWebGL.codec = VideoCodec.VP8;
-            }
-            else
-            {
-                // 透過なし
-                nextImporterPlatformWebGL.codec = VideoCodec.H264;
-            }
-            
-            targetImporter.SetTargetSettings("WebGL",nextImporterPlatformWebGL);
-        }
 
 
         #endregion
@@ -634,25 +211,27 @@ namespace SyskenTLib.UnityAutoFormatConfig.Editor
 
         private VideoUseKind SearchUseKind(string assetPath)
         {
-            if (CommonConfig.videoNormalDirectoryPathList.ToList()
+            STAutoFormatConfig formatConfig = ConfigManager.GetGeneralRootConfig();
+            
+            if (formatConfig.normalVideoDirectoryPathList.ToList()
                 .Any(directoryPath => assetPath.Contains(directoryPath)))
             {
                 return VideoUseKind.Normal;
             }
             
-            if (CommonConfig.videoCustom1DirectoryPathList.ToList()
+            if (formatConfig.custom1VideoDirectoryPathList.ToList()
                 .Any(directoryPath => assetPath.Contains(directoryPath)))
             {
                 return VideoUseKind.Custom1;
             }
             
-            if (CommonConfig.videoCustom2DirectoryPathList.ToList()
+            if (formatConfig.custom2VideoDirectoryPathList.ToList()
                 .Any(directoryPath => assetPath.Contains(directoryPath)))
             {
                 return VideoUseKind.Custom2;
             }
             
-            if (CommonConfig.videoCustom3DirectoryPathList.ToList()
+            if (formatConfig.custom3VideoDirectoryPathList.ToList()
                 .Any(directoryPath => assetPath.Contains(directoryPath)))
             {
                 return VideoUseKind.Custom3;
